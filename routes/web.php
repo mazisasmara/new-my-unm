@@ -1,44 +1,9 @@
 <?php
 
+use App\Http\Controllers\LayananController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('universitas', [
-      'title' => 'Universitas',
-      'layanan' => [
-        [
-          'logoPath' => 'logo/gambar.png',
-          'namaLayanan' => 'ICT',
-          'deskripsi' => 'Lorem Ipsum ini adalah deskripsi ICT',
-          'link' => 'https://azisasmara.my.id'
-        ],
-        [
-          'logoPath' => 'logo/gambar.png',
-          'namaLayanan' => 'Media UNM',
-          'deskripsi' => 'Lorem Ipsum ini adalah deskripsi Media UNM',
-          'link' => 'https://azisasmara.my.id'
-        ],
-        [
-          'logoPath' => 'logo/gambar.png',
-          'namaLayanan' => 'Lab Kom',
-          'deskripsi' => 'Lorem Ipsum ini adalah deskripsi Lab Kom',
-          'link' => 'https://azisasmara.my.id'
-        ],
-        [
-          'logoPath' => 'logo/gambar.png',
-          'namaLayanan' => 'Perpustakaan',
-          'deskripsi' => 'Lorem Ipsum ini adalah deskripsi Perpustakaan',
-          'link' => 'https://azisasmara.my.id'
-        ],
-        [
-          'logoPath' => 'logo/gambar.png',
-          'namaLayanan' => 'UNM Phinisi',
-          'deskripsi' => 'Lorem Ipsum ini adalah deskripsi UNM Phinisi',
-          'link' => 'https://azisasmara.my.id'
-        ],
-      ]
-    ]);
-});
+Route::get('/', [LayananController::class, 'index'] );
 
 Route::get('/fakultas', function () {
     return view('fakultas', ['title' => 'Fakultas']);
@@ -58,4 +23,17 @@ Route::get('/perpustakaan', function () {
 
 Route::get('/dokumen', function () {
     return view('dokumen', ['title' => 'Dokumen']);
+});
+
+// debug database
+Route::get('/debug', function () {
+    return [
+        'fakultas' => \App\Models\Fakultas::all(),
+        'prodis' => \App\Models\Prodi::all(),
+        'users' => \App\Models\User::all(),
+        'kategoris' => \App\Models\Kategori::all(),
+        'layanans' => \App\Models\Layanan::all(),
+        'dokumens' => \App\Models\Dokumen::all(),
+        'sops' => \App\Models\Sop::all(),
+    ];
 });

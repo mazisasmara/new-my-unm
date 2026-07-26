@@ -12,7 +12,12 @@ class LayananController extends Controller
      */
     public function index()
     {
-        //
+        $layanans = Layanan::all();
+        
+        return view('universitas', [
+            'title' => 'Universitas',
+            'layanans' => $layanans
+          ]);
     }
 
     /**

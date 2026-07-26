@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Layanan extends Model
 {
     /** @use HasFactory<\Database\Factories\LayananFactory> */
-    use HasFactory;
+    // use HasFactory;
 }
