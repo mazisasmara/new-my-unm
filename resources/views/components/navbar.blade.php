@@ -13,6 +13,7 @@
               <x-nav-link href='/mahasiswa' :active="request()->is('mahasiswa')">Mahasiswa</x-nav-link>
               <x-nav-link href='/perpustakaan' :active="request()->is('perpustakaan')">Perpustakaan</x-nav-link>
               <x-nav-link href='/dokumen' :active="request()->is('dokumen')">Dokumen</x-nav-link>
+              <x-nav-link href='/login' :active="request()->is('login')">Masuk</x-nav-link>
 
             </div>
           </div>
@@ -62,6 +63,7 @@
         <a href="/mahasiswa" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('mahasiswa') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Mahasiswa</a>
         <a href="/perpustakaan" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('perpustakaan') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Perpustakaan</a>
         <a href="/dokumen" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('dokumen') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Dokumen</a>
+        <a href="/login" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('login') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Masuk</a>
       </div>
       {{-- <div class="border-t border-white/10 pt-4 pb-3">
         <div class="flex items-center px-5">

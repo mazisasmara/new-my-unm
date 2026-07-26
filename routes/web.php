@@ -3,6 +3,21 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LayananController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+
+// Login
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'create'])->name('login');
+    Route::post('/login', [LoginController::class, 'store']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
+
+    Route::get('/dashboard', function () {
+        return 'Dashboard sementara';
+    })->name('dashboard');
+});
 
 Route::get('/', [LayananController::class, 'index'] );
 
