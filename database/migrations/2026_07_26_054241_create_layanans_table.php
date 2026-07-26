@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('users_id')->constrained();
             $table->foreignId('kategori_id')->constrained();
-            $table->foreignId('prodi_id')->constrained();
+            $table->foreignId('unit_id')->constrained('unit');
             $table->string('nama_layanan');
             $table->string('logo')->nullable();
             $table->text('deskripsi');

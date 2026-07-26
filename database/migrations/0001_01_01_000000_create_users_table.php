@@ -21,11 +21,10 @@ return new class extends Migration
         $table->foreignId('fakultas_id')
               ->nullable()
               ->constrained('fakultas');
-        $table->foreignId('prodi_id')
+        $table->foreignId('unit_id')
               ->nullable()
-              ->constrained('prodis');
+              ->constrained('unit');
         $table->boolean('status')->default(true);
-        $table->string('bagian')->nullable();
         $table->rememberToken();
         $table->timestamps();
         });
