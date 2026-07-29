@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('users_id')->constrained();
             $table->foreignId('kategori_id')->constrained();
             $table->foreignId('unit_id')->constrained('unit');
+            $table->integer('urutan')->default(0);
             $table->string('nama_layanan');
             $table->string('logo')->nullable();
             $table->text('deskripsi');

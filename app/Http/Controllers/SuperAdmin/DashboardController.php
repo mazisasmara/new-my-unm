@@ -11,7 +11,6 @@ class DashboardController extends Controller
     public function index()
     {
         $stats = [
-            'total_users'      => User::count(),
             'total_admin'      => User::where('role', 'admin')->count(),
             'total_layanan'    => Layanan::count(),
             'layanan_aktif'    => Layanan::where('status', true)->count(),
