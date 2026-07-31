@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Fakultas;
-use App\Models\Unit;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,19 +17,11 @@ class AdminController extends Controller
         return view('superadmin.admins.index', compact('admins'), ['title' => 'Super Admin']);
     }
 
-    public function getFakultas()
-    {
-        $fakultas = Fakultas::withCount('units')->get();
-
-        return view('superadmin.fakultas.index', compact('fakultas'), ['title' => 'Super Admin']);
-    }
-
     public function create()
     {
-        $fakultasList = Fakultas::all();
-        $unitList = Unit::all();
+        $groupList = Group::with('kategori')->get();
 
-        return view('superadmin.admins.create', compact('fakultasList', 'unitList'), ['title' => 'Super Admin']);
+        return view('superadmin.admins.create', compact('groupList'), ['title' => 'Super Admin']);
     }
 
     public function store(Request $request)
@@ -39,8 +30,7 @@ class AdminController extends Controller
             'username'    => ['required', 'string', 'unique:users,username'],
             'email'       => ['required', 'email', 'unique:users,email'],
             'password'    => ['required', 'string', 'min:8'],
-            'fakultas_id' => ['required', 'exists:fakultas,id'],
-            'unit_id'     => ['nullable', 'exists:unit,id'],
+            'group_id' => ['required', 'exists:groups,id'],
         ]);
 
         User::create([
@@ -48,8 +38,7 @@ class AdminController extends Controller
             'email'       => $data['email'],
             'password'    => Hash::make($data['password']),
             'role'        => 'admin', // dikunci — tidak bisa jadi superadmin dari form ini
-            'fakultas_id' => $data['fakultas_id'],
-            'unit_id'     => $data['unit_id'] ?? null,
+            'group_id' => $data['group_id'],
             'status'      => true,
         ]);
 

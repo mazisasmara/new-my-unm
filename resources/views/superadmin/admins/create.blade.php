@@ -33,21 +33,11 @@
         </div>
 
         <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Fakultas</label>
-            <select name="fakultas_id" class="w-full border rounded-md p-2" required>
-                <option value="">Pilih Fakultas</option>
-                @foreach ($fakultasList as $f)
-                    <option value="{{ $f->id }}">{{ $f->nama_fakultas }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Unit (opsional)</label>
-            <select name="unit_id" class="w-full border rounded-md p-2">
-                <option value="">- Tidak ada -</option>
-                @foreach ($unitList as $u)
-                    <option value="{{ $u->id }}">{{ $u->nama_unit }}</option>
+            <label class="block text-sm font-medium mb-1">Group</label>
+            <select name="group_id" class="w-full border rounded-md p-2" required>
+                <option value="">Pilih Group</option>
+                @foreach ($groupList as $g)
+                    <option value="{{ $g->id }}">{{ $g->nama_group }}</option>
                 @endforeach
             </select>
         </div>

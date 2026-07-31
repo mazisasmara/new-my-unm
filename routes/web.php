@@ -16,8 +16,6 @@ Route::get('/', fn() =>
     app(LayananController::class)->kategori('universitas')
 )->name('home');
 
-Route::get('/{slug}', [LayananController::class, 'kategori']);
-
 /*
 |--------------------------------------------------------------------------
 | Authentication
@@ -136,3 +134,6 @@ Route::get('/test-session', function () {
 Route::get('/cookie-test', function () {
     return response('ok');
 });
+
+// Slug
+Route::get('/{slug}', [LayananController::class, 'kategori']);

@@ -28,22 +28,24 @@
                 <th class="p-3">Nama</th>
                 <th class="p-3">Kategori</th>
                 <th class="p-3">Status</th>
+                <th class="p-3">Dibuat</th>
             </tr>
         </thead>
         <tbody>
+        <a href="{{ route('superadmin.admins.index') }}" class="inline-block mt-6 text-blue-600 hover:underline">
+            Kelola Akun Admin →
+        </a>
             @foreach ($layananList as $item)
                 <tr class="border-b">
                     <td class="p-3">{{ $item->id }}</td>
                     <td class="p-3">{{ $item->nama_layanan }}</td>
                     <td class="p-3">{{ $item->group->kategori->nama_kategori ?? '-' }}</td>
                     <td class="p-3">{{ $item->status ? 'Aktif' : 'Nonaktif' }}</td>
+                    <td class="p-3">{{ $item->created_at->diffForHumans() }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <a href="{{ route('superadmin.admins.index') }}" class="inline-block mt-6 text-blue-600 hover:underline">
-        Kelola Akun Admin →
-    </a>
 </div>
 </x-layout>
