@@ -60,11 +60,26 @@ Route::get('/dokumen', function () {
 Route::get('/debug', function () {
     return [
         'fakultas' => \App\Models\Fakultas::all(),
-        'prodis' => \App\Models\Prodi::all(),
+        'prodis' => \App\Models\Unit::all(),
         'users' => \App\Models\User::all(),
         'kategoris' => \App\Models\Kategori::all(),
         'layanans' => \App\Models\Layanan::all(),
         'dokumens' => \App\Models\Dokumen::all(),
         'sops' => \App\Models\Sop::all(),
     ];
+});
+
+// Debug session
+Route::get('/test-session', function () {
+    session(['nama' => 'Azis']);
+
+    return [
+        'session_id' => session()->getId(),
+        'nama' => session('nama'),
+    ];
+});
+
+// Debug cookie
+Route::get('/cookie-test', function () {
+    return response('ok');
 });

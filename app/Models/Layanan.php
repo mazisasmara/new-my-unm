@@ -26,7 +26,7 @@ class Layanan extends Model
         return $this->belongsTo(Kategori::class);
     }
 
-    public function pembuat()
+    public function pemilik()
     {
         return $this->belongsTo(User::class, 'users_id');
     }

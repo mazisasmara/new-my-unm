@@ -10,6 +10,7 @@ use App\Models\Sop;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,8 +21,33 @@ class DatabaseSeeder extends Seeder
             ['username' => 'ict'],
             [
                 'email' => 'muhammadAzis070409@gmail.com',
-                'password' => 'ictunm123',
+                'password' => Hash::make('ictunm123'),
                 'role' => 'superadmin',
+                'fakultas_id' => null,
+                'unit_id' => null,
+                'status' => true,
+            ]
+          );
+          
+        // Admin
+        User::firstOrCreate(
+            ['username' => 'ftlab'],
+            [
+                'email' => 'dummylab@gmail.com',
+                'password' => Hash::make('ftlab'),
+                'role' => 'admin',
+                'fakultas_id' => null,
+                'unit_id' => null,
+                'status' => true,
+            ]
+        );
+        // Admin
+        User::firstOrCreate(
+            ['username' => 'ftperpustakaan'],
+            [
+                'email' => 'dummyperpus@gmail.com',
+                'password' => Hash::make('ftlab'),
+                'role' => 'admin',
                 'fakultas_id' => null,
                 'unit_id' => null,
                 'status' => true,
@@ -29,12 +55,12 @@ class DatabaseSeeder extends Seeder
         );
 
         // Fakultas
-        $ft = Fakultas::firstOrCreate(['nama_fakultas' => 'Fakultas Teknik']);
-        $fip = Fakultas::firstOrCreate(['nama_fakultas' => 'Fakultas Ilmu Pendidikan']);
+        $ft = Fakultas::firstOrCreate(['nama_fakultas' => 'Fakultas Teknik - lab']);
+        $ftp = Fakultas::firstOrCreate(['nama_fakultas' => 'Fakultas Teknik - perpustakaan']);
 
         // Unit
-        $unitFt = Unit::firstOrCreate(['fakultas_id' => $ft->id, 'nama_unit' => 'UPT Fakultas Teknik']);
-        Unit::firstOrCreate(['fakultas_id' => $fip->id, 'nama_unit' => 'UPT Fakultas Ilmu Pendidikan']);
+        $unitFt = Unit::firstOrCreate(['fakultas_id' => $ft->id, 'nama_unit' => 'UPT Fakultas Teknik - lab']);
+        Unit::firstOrCreate(['fakultas_id' => $ftp->id, 'nama_unit' => 'UPT Fakultas Teknik - Perpustakaan']);
 
         // Kategori
         Kategori::firstOrCreate(['nama_kategori' => 'Universitas'], ['urutan' => 1]);
@@ -44,30 +70,30 @@ class DatabaseSeeder extends Seeder
         Kategori::firstOrCreate(['nama_kategori' => 'Perpustakaan'], ['urutan' => 5]);
         Kategori::firstOrCreate(['nama_kategori' => 'Dokumen'], ['urutan' => 6]);
 
-        $superadmin = User::where('role', 'superadmin')->first();
+        $admin = User::where('role', 'admin')->first();
 
         // Layanan
         $layanan1 = Layanan::firstOrCreate(
-            ['nama_layanan' => 'FT-Registrasi'],
+            ['nama_layanan' => 'FT-Laboratorium'],
             [
-                'users_id' => $superadmin->id,
+                'users_id' => $admin->id,
                 'kategori_id' => $kFakultas->id,
                 'unit_id' => $unitFt->id,
-                'deskripsi' => 'Layanan registrasi mahasiswa Fakultas Teknik',
-                'link' => 'https://ft.unm.ac.id/registrasi',
+                'deskripsi' => 'Layanan laboratorium mahasiswa Fakultas Teknik',
+                'link' => 'https://ft.unm.ac.id/lab',
                 'status' => true,
                 'urutan' => 1,
             ]
         );
 
         Layanan::firstOrCreate(
-            ['nama_layanan' => 'FT-Event'],
+            ['nama_layanan' => 'FT-Library'],
             [
-                'users_id' => $superadmin->id,
+                'users_id' => $admin->id,
                 'kategori_id' => $kFakultas->id,
                 'unit_id' => $unitFt->id,
-                'deskripsi' => 'Informasi event Fakultas Teknik',
-                'link' => 'https://ft.unm.ac.id/event',
+                'deskripsi' => 'Perpustakaan fakultas Teknik',
+                'link' => 'https://ft.unm.ac.id/library',
                 'status' => true,
                 'urutan' => 2,
             ]
