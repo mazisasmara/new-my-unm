@@ -13,9 +13,16 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $admins = User::where('role', 'admin')->with('fakultas')->get();
+        $admins = User::where('role', 'admin')->with('group.layanans')->get();
 
         return view('superadmin.admins.index', compact('admins'), ['title' => 'Super Admin']);
+    }
+
+    public function getFakultas()
+    {
+        $fakultas = Fakultas::withCount('units')->get();
+
+        return view('superadmin.fakultas.index', compact('fakultas'), ['title' => 'Super Admin']);
     }
 
     public function create()

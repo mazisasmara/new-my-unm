@@ -26,7 +26,6 @@
             <tr class="text-left border-b">
                 <th class="p-3">ID</th>
                 <th class="p-3">Nama</th>
-                <th class="p-3">Fakultas</th>
                 <th class="p-3">Kategori</th>
                 <th class="p-3">Status</th>
             </tr>
@@ -36,8 +35,7 @@
                 <tr class="border-b">
                     <td class="p-3">{{ $item->id }}</td>
                     <td class="p-3">{{ $item->nama_layanan }}</td>
-                    <td class="p-3">{{ $item->unit->fakultas->nama_fakultas ?? '-' }}</td>
-                    <td class="p-3">{{ $item->kategori->nama_kategori ?? '-' }}</td>
+                    <td class="p-3">{{ $item->group->kategori->nama_kategori ?? '-' }}</td>
                     <td class="p-3">{{ $item->status ? 'Aktif' : 'Nonaktif' }}</td>
                 </tr>
             @endforeach

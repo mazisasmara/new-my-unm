@@ -18,12 +18,10 @@ return new class extends Migration
         $table->string('email')->unique();
         $table->string('password');
         $table->string('role');
-        $table->foreignId('fakultas_id')
-              ->nullable()
-              ->constrained('fakultas');
-        $table->foreignId('unit_id')
-              ->nullable()
-              ->constrained('unit');
+        $table->foreignId('group_id')
+      ->nullable()
+      ->constrained()
+      ->nullOnDelete();
         $table->boolean('status')->default(true);
         $table->rememberToken();
         $table->timestamps();

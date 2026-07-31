@@ -3,13 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Dokumen extends Model
 {
-    protected $table = 'dokumens';
-    protected $fillable = ['layanan_id', 'file', 'deskripsi'];
+    protected $fillable = [
+        'layanan_id',
+        'judul',
+        'deskripsi',
+        'file',
+        'status',
+        'urutan',
+    ];
 
-    public function layanan()
+    public function layanan(): BelongsTo
     {
         return $this->belongsTo(Layanan::class);
     }

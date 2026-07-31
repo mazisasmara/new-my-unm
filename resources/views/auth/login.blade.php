@@ -38,12 +38,9 @@
                     class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
                     Login
                 </button>
-                <button
-                    class="w-full bg-red-600 text-white py-2 my-1 rounded-md hover:bg-red-700">
-                  <a href="/">
+                  <a href="{{ route('home') }}" class="w-full bg-red-600 text-white py-2 my-1 rounded-md hover:bg-red-700">
                     Kembali
                     </a>
-                </button>
             </form>
         </div>
     </div>

@@ -16,7 +16,7 @@ class DashboardController extends Controller
             'layanan_nonaktif' => Layanan::where('status', false)->count(),
         ];
 
-        $layananList = Layanan::with(['unit.fakultas', 'kategori'])
+        $layananList = Layanan::with(['group.kategori'])
             ->orderBy('urutan')
             ->get();
 

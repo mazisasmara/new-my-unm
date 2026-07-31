@@ -3,51 +3,51 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Layanan extends Model
 {
-    protected $table = 'layanans';
     protected $fillable = [
-        'users_id', 'kategori_id', 'unit_id',
-        'nama_layanan', 'logo', 'deskripsi', 'link', 'status', 'urutan',
+        'group_id',
+        'created_by',
+        'nama_layanan',
+        'logo',
+        'deskripsi',
+        'link',
+        'urutan',
+        'status',
     ];
 
-    protected $casts = [
-        'status' => 'boolean',
-    ];
-
-    public function unit()
+    protected function casts(): array
     {
-        return $this->belongsTo(Unit::class);
+        return [
+            'status' => 'boolean',
+        ];
     }
 
-    public function kategori()
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Group::class);
+    }
+  
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function pemilik()
+    public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'users_id');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function dokumen()
+    public function dokumens(): HasMany
     {
         return $this->hasMany(Dokumen::class);
     }
 
-    public function sop()
+    public function sops(): HasMany
     {
         return $this->hasMany(Sop::class);
-    }
-
-    public function scopeAktif($query)
-    {
-        return $query->where('status', true);
-    }
-
-    public function scopeMilikFakultas($query, $fakultasId)
-    {
-        return $query->whereHas('unit', fn ($q) => $q->where('fakultas_id', $fakultasId));
     }
 }

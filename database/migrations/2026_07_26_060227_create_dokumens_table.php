@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('layanan_id')->constrained();
             $table->string('file');
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

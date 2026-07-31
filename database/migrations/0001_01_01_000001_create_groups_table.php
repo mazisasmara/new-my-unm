@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fakultas_id')->constrained('fakultas');
-            $table->string('nama_unit');
+            $table->foreignId('kategori_id')
+              ->constrained()
+              ->cascadeOnDelete();
+            $table->string('nama_group');
+            $table->string('slug')->unique();
+            $table->unsignedInteger('urutan')->default(0);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit');
+        Schema::dropIfExists('groups');
     }
 };

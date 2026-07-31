@@ -3,9 +3,9 @@
   
 <div class="max-w-3xl mx-auto py-8 px-4">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-xl font-bold">Kelola Akun Admin</h1>
+        <h1 class="text-xl font-bold">Kelola Fakultas</h1>
         <a href="{{ route('superadmin.admins.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md">
-            + Tambah Admin
+            + Tambah Fakultas
         </a>
     </div>
 
@@ -16,24 +16,20 @@
     <table class="w-full bg-white rounded-lg shadow-sm text-sm">
         <thead>
             <tr class="text-left border-b">
-                <th class="p-3">Username</th>
-                <th class="p-3">Email</th>
-                <th class="p-3">Group</th>
-                <th class="p-3">Slug</th>
-                <th class="p-3">Jumlah Layanan</th>
+                <th class="p-3">id</th>
+                <th class="p-3">Nama Fakultas</th>
+                <th class="p-3">Jumlah unit</th>
                 <th class="p-3"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($admins as $admin)
+            @foreach ($fakultas as $item)
                 <tr class="border-b">
-                    <td class="p-3">{{ $admin->username }}</td>
-                    <td class="p-3">{{ $admin->email }}</td>
-                    <td class="p-3">{{ $admin->group->nama_group ?? '-' }}</td>
-                    <td class="p-3">{{ $admin->group->slug ?? '-' }}</td>
-                    <td class="p-3">{{ $admin->group->layanans->where('created_by', $admin->id)->count() ?? '-' }}</td>
+                    <td class="p-3">{{ $item->id }}</td>
+                    <td class="p-3">{{ $item->nama_fakultas }}</td>
+                    <td class="p-3">{{ $item->units_count }}</td>
                     <td class="p-3">
-                        <form action="{{ route('superadmin.admins.destroy', $admin) }}" method="POST"
+                        <form action="{{ route('superadmin.admins.destroy', $item) }}" method="POST"
                               onsubmit="return confirm('Hapus akun ini?')">
                             @csrf @method('DELETE')
                             <button class="text-red-600 hover:underline">Hapus</button>

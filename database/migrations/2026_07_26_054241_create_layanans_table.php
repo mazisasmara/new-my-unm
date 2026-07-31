@@ -13,15 +13,20 @@ return new class extends Migration
     {
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('users_id')->constrained();
-            $table->foreignId('kategori_id')->constrained();
-            $table->foreignId('unit_id')->constrained('unit');
-            $table->integer('urutan')->default(0);
+            $table->foreignId('group_id')
+              ->constrained()
+              ->cascadeOnDelete();
+         
+            $table->foreignId('created_by')
+              ->nullable()
+              ->constrained('users')
+              ->cascadeOnDelete();
             $table->string('nama_layanan');
             $table->string('logo')->nullable();
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->string('link')->nullable();
             $table->boolean('status')->default(true);
+            $table->integer('urutan')->default(0);
             $table->timestamps();
         });
     }

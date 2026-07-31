@@ -7,13 +7,21 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <x-nav-link href='/' :active="request()->is('/')">Universitas</x-nav-link>
-              <x-nav-link href='/fakultas' :active="request()->is('fakultas')">Fakultas</x-nav-link>
-              <x-nav-link href='/portal-prodi' :active="request()->is('portal-prodi')">Portal Prodi</x-nav-link>
-              <x-nav-link href='/mahasiswa' :active="request()->is('mahasiswa')">Mahasiswa</x-nav-link>
-              <x-nav-link href='/perpustakaan' :active="request()->is('perpustakaan')">Perpustakaan</x-nav-link>
-              <x-nav-link href='/dokumen' :active="request()->is('dokumen')">Dokumen</x-nav-link>
-              <x-nav-link href='/login' :active="request()->is('login')">Masuk</x-nav-link>
+                  @foreach($kategoris as $item)
+    <x-nav-link
+        href="{{ $item->slug == 'universitas'
+            ? route('home')
+            : url($item->slug) }}"
+        :active="
+            $item->slug == 'universitas'
+                ? request()->is('/')
+                : request()->is($item->slug)
+        "
+    >
+        {{ $item->nama_kategori }}
+    </x-nav-link>
+@endforeach
+             <x-nav-link href='/login' :active="request()->is('login')">Masuk</x-nav-link>
 
             </div>
           </div>
@@ -56,13 +64,20 @@
 
     <el-disclosure id="mobile-menu" hidden class="block md:hidden">
       <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-        <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
-        <a href="/" aria-current="page" class="block rounded-md {{ request()->is('/') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }} px-3 py-2 text-base font-medium">Universitas</a>
-        <a href="/fakultas" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('fakultas') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Fakultas</a>
-        <a href="/portal-prodi" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('portal-prodi') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Portal Prodi</a>
-        <a href="/mahasiswa" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('mahasiswa') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Mahasiswa</a>
-        <a href="/perpustakaan" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('perpustakaan') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Perpustakaan</a>
-        <a href="/dokumen" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('dokumen') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Dokumen</a>
+        @foreach($kategoris as $item)
+    <x-nav-link
+        href="{{ $item->slug == 'universitas'
+            ? route('home')
+            : url($item->slug) }}"
+        :active="
+            $item->slug == 'universitas'
+                ? request()->is('/')
+                : request()->is($item->slug)
+        "
+    >
+        {{ $item->nama_kategori }}
+    </x-nav-link>
+@endforeach
         <a href="/login" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->is('login') ? 'bg-gray-950/50 text-white' : 'text-gray-300 hover:bg-white/5 hover:text-white' }}">Masuk</a>
       </div>
       {{-- <div class="border-t border-white/10 pt-4 pb-3">
