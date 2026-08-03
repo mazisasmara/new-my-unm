@@ -127,14 +127,18 @@ Route::get('/debug', function () {
     ];
 });
 
-Route::get('/test-session', function () {
-
-    session(['nama' => 'Azis']);
+Route::get('/session-test', function () {
+    session(['hello' => 'world']);
 
     return [
         'session_id' => session()->getId(),
-        'nama' => session('nama'),
+        'hello' => session('hello'),
+        'secure' => request()->secure(),
     ];
+});
+
+Route::get('/headers-test', function () {
+    return request()->headers->all();
 });
 
 Route::get('/cookie-test', function () {
