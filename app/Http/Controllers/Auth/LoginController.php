@@ -44,10 +44,9 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        // Redirect berdasarkan role
         return match ($user->role) {
-            'admin'    => redirect()->intended('/admin/layanan'),
-            'superadmin'    => redirect()->intended('/superadmin/dashboard'),
+            'admin'    => redirect('/admin/dashboard'),
+            'superadmin'    => redirect('/superadmin/dashboard'),
         };
     }
 

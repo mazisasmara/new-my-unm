@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('link')->nullable();
             $table->boolean('status')->default(true);
             $table->integer('urutan')->default(0);
+            $table->unsignedInteger('clicks')->default(0);
             $table->timestamps();
         });
     }

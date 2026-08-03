@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -50,4 +52,31 @@ class Layanan extends Model
     {
         return $this->hasMany(Sop::class);
     }
+    
+      #[Scope]
+      protected function filter(Builder $query, ?string $search): void
+      {
+          if (! $search) {
+              return;
+          }
+      
+          $query->where(function ($query) use ($search) {
+              $query->where('nama_layanan', 'like', "%{$search}%")
+                    ->orWhere('deskripsi', 'like', "%{$search}%");
+          });
+      }
+      
+      #[Scope]
+      protected function popular(Builder $query): void
+      {
+          $query->orderByDesc('clicks');
+      }
+      
+      #[Scope]
+      protected function byUser(Builder $query, ?int $userId): void
+      {
+          if ($userId) {
+              $query->where('created_by', $userId);
+          }
+      }
 }

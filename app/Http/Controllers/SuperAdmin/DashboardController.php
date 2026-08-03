@@ -4,6 +4,8 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Layanan;
 use App\Models\User;
+use App\Models\Kategori;
+use App\Models\Group;
 
 class DashboardController extends Controller
 {
@@ -16,10 +18,28 @@ class DashboardController extends Controller
             'layanan_nonaktif' => Layanan::where('status', false)->count(),
         ];
 
-        $layananList = Layanan::with(['group.kategori'])
-            ->orderBy('urutan')
-            ->get();
+        
+      $layananList = Layanan::with('group.kategori')
+         ->when(request('kategori'), function ($query) {
+            $query->whereHas('group', function ($q) {
+                $q->where('kategori_id', request('kategori'));
+            });
+        })
+        ->latest()
+        ->popular()
+        ->filter(request('search'))
+        ->take(7)
+        ->get();
 
-        return view('superadmin.dashboard', compact('stats', 'layananList'), ['title' => 'Super Admin']);
+        $kategoris = Kategori::orderBy('urutan')->get();
+        $groups = Group::with('user')->get();
+
+        return view('superadmin.dashboard', compact('stats', 'layananList'), ['title' => 'Super Admin',
+                    'title' => 'Dashboard Superadmin',
+                    'stats' => $stats,
+                    'layananList' => $layananList,
+                    'kategoris' => $kategoris,
+                    'groups' => $groups,
+                    ]);
     }
 }

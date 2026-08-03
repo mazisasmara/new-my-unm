@@ -1,39 +1,93 @@
 <x-layout>
-      <x-slot:title>{{ $title }}</x-slot:title>
+    <x-slot:title>
+        {{ $title }}
+    </x-slot:title>
 
-<div class="max-w-lg mx-auto py-8 px-4">
-    <h1 class="text-xl font-bold mb-6">Edit Layanan</h1>
+    <div class="max-w-2xl mx-auto py-8 px-4">
+        <h1 class="text-2xl font-bold mb-6">Edit Layanan</h1>
 
-    <form action="{{ route('admin.layanan.update', $layanan) }}" method="POST" enctype="multipart/form-data">
-        @csrf @method('PUT')
+        <form
+            action="{{ route('admin.layanan.update', $layanan) }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-4"
+        >
+            @csrf
+            @method ('PUT')
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Nama Layanan</label>
-            <input type="text" name="nama_layanan" value="{{ old('nama_layanan', $layanan->nama_layanan) }}"
-                class="w-full border rounded-md p-2" required>
-        </div>
+            <div>
+                <label class="block mb-1 font-medium"> Nama Layanan </label>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Deskripsi</label>
-            <textarea name="deskripsi" class="w-full border rounded-md p-2" rows="3">{{ old('deskripsi', $layanan->deskripsi) }}</textarea>
-        </div>
+                <input
+                    type="text"
+                    name="nama_layanan"
+                    value="{{ old('nama_layanan', $layanan->nama_layanan) }}"
+                    class="w-full border rounded-lg px-3 py-2"
+                />
+            </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Link</label>
-            <input type="url" name="link" value="{{ old('link', $layanan->link) }}" class="w-full border rounded-md p-2">
-        </div>
+            <div>
+                <label class="block mb-1 font-medium"> Deskripsi </label>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Logo</label>
+                <textarea
+                    name="deskripsi"
+                    rows="4"
+                    class="w-full border rounded-lg px-3 py-2"
+                    >{{ old('deskripsi', $layanan->deskripsi) }}</textarea
+                >
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium"> Link </label>
+
+                <input
+                    type="url"
+                    name="link"
+                    value="{{ old('link', $layanan->link) }}"
+                    class="w-full border rounded-lg px-3 py-2"
+                />
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium"> Logo Baru </label>
+
+                <input
+                    type="file"
+                    name="logo"
+                    class="w-full border rounded-lg px-3 py-2"
+                />
+            </div>
+
             @if ($layanan->logo)
-                <img src="{{ Storage::url($layanan->logo) }}" class="h-12 mb-2">
-            @endif
-            <input type="file" name="logo" class="w-full">
-        </div>
+                <div>
+                    <p class="text-sm text-gray-500 mb-2">Logo Saat Ini</p>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
-            Simpan
-        </button>
-    </form>
-</div>
+                    <img
+                        src="{{ asset('storage/' . $layanan->logo) }}"
+                        class="size-16 rounded-full object-cover"
+                    />
+                </div>
+            @endif
+
+            <div>
+                <label class="inline-flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        name="status"
+                        value="1"
+                        {{ $layanan->status ? 'checked' : '' }}
+                    />
+
+                    Aktif
+                </label>
+            </div>
+
+            <button
+                type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+                Simpan Perubahan
+            </button>
+        </form>
+    </div>
 </x-layout>

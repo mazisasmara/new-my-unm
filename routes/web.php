@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LayananController;
-use App\Http\Controllers\SuperAdmin\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 
 /*
@@ -16,6 +17,8 @@ Route::get('/', fn() =>
     app(LayananController::class)->kategori('universitas')
 )->name('home');
 
+Route::get('/visit/{layanan}', [LayananController::class, 'visit'])
+    ->name('layanan.visit');
 /*
 |--------------------------------------------------------------------------
 | Authentication
@@ -48,28 +51,31 @@ Route::middleware(['auth', 'role:admin,superadmin'])
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/layanan', [LayananController::class, 'adminIndex'])
+        Route::get('/dashboard', [AdminController::class, 'adminDashboard'])
+            ->name('dashboard');
+
+        Route::get('/layanan', [AdminController::class, 'index'])
             ->name('layanan.index');
 
-        Route::get('/layanan/create', [LayananController::class, 'create'])
+        Route::get('/layanan/create', [AdminController::class, 'create'])
             ->name('layanan.create');
 
-        Route::post('/layanan', [LayananController::class, 'store'])
+        Route::post('/layanan', [AdminController::class, 'store'])
             ->name('layanan.store');
 
-        Route::get('/layanan/{layanan}/edit', [LayananController::class, 'edit'])
+        Route::get('/layanan/{layanan}/edit', [AdminController::class, 'edit'])
             ->name('layanan.edit');
 
-        Route::put('/layanan/{layanan}', [LayananController::class, 'update'])
+        Route::put('/layanan/{layanan}', [AdminController::class, 'update'])
             ->name('layanan.update');
 
-        Route::delete('/layanan/{layanan}', [LayananController::class, 'destroy'])
+        Route::delete('/layanan/{layanan}', [AdminController::class, 'destroy'])
             ->name('layanan.destroy');
 
-        Route::patch('/layanan/{layanan}/toggle', [LayananController::class, 'toggleStatus'])
+        Route::patch('/layanan/{layanan}/toggle', [AdminController::class, 'toggleStatus'])
             ->name('layanan.toggle');
 
-        Route::post('/layanan/reorder', [LayananController::class, 'reorder'])
+        Route::post('/layanan/reorder', [AdminController::class, 'reorder'])
             ->name('layanan.reorder');
     });
 
@@ -88,16 +94,16 @@ Route::middleware(['auth', 'role:superadmin'])
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::get('/admins', [AdminController::class, 'index'])
+        Route::get('/admins', [SuperAdminController::class, 'index'])
             ->name('admins.index');
 
-        Route::get('/admins/create', [AdminController::class, 'create'])
+        Route::get('/admins/create', [SuperAdminController::class, 'create'])
             ->name('admins.create');
 
-        Route::post('/admins', [AdminController::class, 'store'])
+        Route::post('/admins', [SuperAdminController::class, 'store'])
             ->name('admins.store');
 
-        Route::delete('/admins/{user}', [AdminController::class, 'destroy'])
+        Route::delete('/admins/{user}', [SuperAdminController::class, 'destroy'])
             ->name('admins.destroy');
     });
 
