@@ -46,6 +46,110 @@ class AnalyticsService
     ];
   }
 
+  public function websiteVisits(int $days = 7): array
+  {
+    $days = in_array($days, [7, 14, 30]) ? $days : 7;
+
+    $startDate = now()
+      ->subDays($days - 1)
+      ->startOfDay();
+
+    $endDate = now()->endOfDay();
+
+    $logs = AnalyticsLog::query()
+      ->where("log_type", "website_visit")
+      ->whereBetween("visited_at", [
+        $startDate->toDateString(),
+        $endDate->toDateString(),
+      ])
+      ->selectRaw("visited_at, COUNT(*) as total")
+      ->groupBy("visited_at")
+      ->orderBy("visited_at")
+      ->get();
+
+    $labels = $this->dateLabels($days);
+
+    $data = collect($labels)
+      ->map(function ($date) use ($logs) {
+        $log = $logs->first(
+          fn($item) => Carbon::parse($item->visited_at)->toDateString() ===
+            $date
+        );
+
+        return $log ? (int) $log->total : 0;
+      })
+      ->values()
+      ->all();
+
+    return [
+      "labels" => $labels,
+      "datasets" => [
+        [
+          "label" => "Website Visitor",
+          "data" => $data,
+        ],
+      ],
+    ];
+  }
+
+  public function totalWebsiteVisitors(int $days = 7): int
+  {
+    $days = in_array($days, [7, 14, 30]) ? $days : 7;
+
+    return AnalyticsLog::query()
+      ->where("log_type", "website_visit")
+      ->whereBetween("visited_at", [
+        now()
+          ->subDays($days - 1)
+          ->toDateString(),
+        now()->toDateString(),
+      ])
+      ->count();
+  }
+
+  public function totalServiceVisits(int $days = 7): array
+  {
+    $days = in_array($days, [7, 14, 30]) ? $days : 7;
+
+    $startDate = now()
+      ->subDays($days - 1)
+      ->startOfDay();
+
+    $endDate = now()->endOfDay();
+
+    $logs = AnalyticsLog::query()
+      ->where("log_type", "service_visit")
+      ->whereBetween("visited_at", [
+        $startDate->toDateString(),
+        $endDate->toDateString(),
+      ])
+      ->selectRaw("visited_at, COUNT(*) as total")
+      ->groupBy("visited_at")
+      ->orderBy("visited_at")
+      ->get();
+
+    $labels = $this->dateLabels($days);
+
+    $data = collect($labels)
+      ->map(function ($date) use ($logs) {
+        $log = $logs->first(fn($item) => $item->visited_at === $date);
+
+        return $log ? (int) $log->total : 0;
+      })
+      ->values()
+      ->all();
+
+    return [
+      "labels" => $labels,
+      "datasets" => [
+        [
+          "label" => "Total Visitor Layanan",
+          "data" => $data,
+        ],
+      ],
+    ];
+  }
+
   /**
    * Membuat daftar tanggal untuk sumbu X grafik.
    */
