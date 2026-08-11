@@ -6,183 +6,188 @@ use App\Http\Controllers\Controller;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Services\AnalyticsService;
 
 class AdminController extends Controller
 {
+  public function adminDashboard(AnalyticsService $analyticsService)
+  {
+    $layanans = Layanan::with("group")
+      ->whereBelongsTo(auth()->user()->group)
+      ->orderBy("urutan")
+      ->get();
 
-    public function adminDashboard()
-    {
-      $layanans = Layanan::with('group')
-          ->whereBelongsTo(auth()->user()->group)
-          ->orderBy('urutan')
-          ->get();
-      
-      $stats = [
-          'total_layanan' => $layanans->count(),
-          'layanan_aktif' => ($layanans)->where('status', true)->count(),
-          'layanan_nonaktif' => ($layanans)->where('status', false)->count(),
-          'total_click' => ($layanans)->sum('clicks'),
-      ];
-      
-      $popularLayanans = Layanan::popular()
-          ->whereBelongsTo(auth()->user()->group)
-          ->take(5)
-          ->get();
-          
-      return view('admin.dashboard', [
-          'title' => 'dashboard Admin',
-          'layanans' => $layanans,
-          'stats' => $stats,
-          'popularLayanans' => $popularLayanans,
-      ]);
-    }
-    
-    public function index()
-    {
-        $layanans = Layanan::with('group')
-            ->whereBelongsTo(auth()->user()->group)
-            ->orderBy('urutan')
-            ->get();
+    $stats = [
+      "total_layanan" => $layanans->count(),
+      "layanan_aktif" => $layanans->where("status", true)->count(),
+      "layanan_nonaktif" => $layanans->where("status", false)->count(),
+      "total_click" => $layanans->sum("clicks"),
+    ];
 
-        return view('admin.layanan.index', [
-            'title' => 'Manajemen Layanan',
-            'layanans' => $layanans,
-        ]);
+    $days = (int) request("days", 7);
+
+    if (!in_array($days, [7, 14, 30])) {
+      $days = 7;
     }
 
-    public function create()
-    {
-        return view('admin.layanan.create', [
-            'title' => 'Tambah Layanan',
-        ]);
+    $analytics = $analyticsService->serviceVisits($layanans, $days);
+
+    $popularLayanans = Layanan::popular()
+      ->whereBelongsTo(auth()->user()->group)
+      ->take(5)
+      ->get();
+
+    return view("admin.dashboard", [
+      "title" => "Dashboard Admin",
+      "layanans" => $layanans,
+      "stats" => $stats,
+      "popularLayanans" => $popularLayanans,
+      "analytics" => $analytics,
+      "days" => $days,
+    ]);
+  }
+
+  public function index()
+  {
+    $layanans = Layanan::with("group")
+      ->whereBelongsTo(auth()->user()->group)
+      ->orderBy("urutan")
+      ->get();
+
+    return view("admin.layanan.index", [
+      "title" => "Manajemen Layanan",
+      "layanans" => $layanans,
+    ]);
+  }
+
+  public function create()
+  {
+    return view("admin.layanan.create", [
+      "title" => "Tambah Layanan",
+    ]);
+  }
+
+  public function store(Request $request)
+  {
+    $validated = $request->validate([
+      "nama_layanan" => ["required", "string", "max:255"],
+      "deskripsi" => ["nullable", "string"],
+      "link" => ["nullable", "url"],
+      "urutan" => ["nullable", "integer"],
+      "status" => ["nullable", "boolean"],
+      "logo" => ["nullable", "image", "max:2048"],
+    ]);
+
+    if ($request->hasFile("logo")) {
+      $validated["logo"] = $request
+        ->file("logo")
+        ->store("layanan-logo", "public");
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nama_layanan' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['nullable', 'string'],
-            'link' => ['nullable', 'url'],
-            'urutan' => ['nullable', 'integer'],
-            'status' => ['nullable', 'boolean'],
-            'logo' => ['nullable', 'image', 'max:2048'],
-        ]);
+    Layanan::create([
+      ...$validated,
+      "group_id" => auth()->user()->group_id,
+      "created_by" => auth()->id(),
+      "status" => $validated["status"] ?? true,
+      "urutan" => $validated["urutan"] ?? 0,
+    ]);
 
-        if ($request->hasFile('logo')) {
-            $validated['logo'] = $request
-                ->file('logo')
-                ->store('layanan-logo', 'public');
-        }
+    return to_route("admin.layanan.index")->with(
+      "success",
+      "Layanan berhasil ditambahkan."
+    );
+  }
 
-        Layanan::create([
-            ...$validated,
-            'group_id' => auth()->user()->group_id,
-            'created_by' => auth()->id(),
-            'status' => $validated['status'] ?? true,
-            'urutan' => $validated['urutan'] ?? 0,
-        ]);
+  public function edit(Layanan $layanan)
+  {
+    $this->authorizeLayanan($layanan);
 
-        return to_route('admin.layanan.index')
-            ->with('success', 'Layanan berhasil ditambahkan.');
+    return view("admin.layanan.edit", [
+      "title" => "Edit Layanan",
+      "layanan" => $layanan,
+    ]);
+  }
+
+  public function update(Request $request, Layanan $layanan)
+  {
+    $this->authorizeLayanan($layanan);
+
+    $validated = $request->validate([
+      "nama_layanan" => ["required", "string", "max:255"],
+      "deskripsi" => ["nullable", "string"],
+      "link" => ["nullable", "url"],
+      "urutan" => ["nullable", "integer"],
+      "status" => ["nullable", "boolean"],
+      "logo" => ["nullable", "image", "max:2048"],
+    ]);
+
+    if ($request->hasFile("logo")) {
+      if ($layanan->logo) {
+        Storage::disk("public")->delete($layanan->logo);
+      }
+
+      $validated["logo"] = $request
+        ->file("logo")
+        ->store("layanan-logo", "public");
     }
 
-    public function edit(Layanan $layanan)
-    {
-        $this->authorizeLayanan($layanan);
+    $layanan->update([
+      ...$validated,
+      "status" => $validated["status"] ?? true,
+      "urutan" => $validated["urutan"] ?? 0,
+    ]);
 
-        return view('admin.layanan.edit', [
-            'title' => 'Edit Layanan',
-            'layanan' => $layanan,
-        ]);
+    return to_route("admin.layanan.index")->with(
+      "success",
+      "Layanan berhasil diperbarui."
+    );
+  }
+
+  public function destroy(Layanan $layanan)
+  {
+    $this->authorizeLayanan($layanan);
+
+    if ($layanan->logo) {
+      Storage::disk("public")->delete($layanan->logo);
     }
 
-    public function update(Request $request, Layanan $layanan)
-    {
-        $this->authorizeLayanan($layanan);
+    $layanan->delete();
 
-        $validated = $request->validate([
-            'nama_layanan' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['nullable', 'string'],
-            'link' => ['nullable', 'url'],
-            'urutan' => ['nullable', 'integer'],
-            'status' => ['nullable', 'boolean'],
-            'logo' => ['nullable', 'image', 'max:2048'],
+    return back()->with("success", "Layanan berhasil dihapus.");
+  }
+
+  public function reorder(Request $request)
+  {
+    $request->validate([
+      "ids" => ["required", "array"],
+    ]);
+
+    collect($request->ids)->each(function ($id, $index) {
+      Layanan::whereKey($id)
+        ->whereBelongsTo(auth()->user()->group)
+        ->update([
+          "urutan" => $index + 1,
         ]);
+    });
 
-        if ($request->hasFile('logo')) {
+    return response()->json([
+      "success" => true,
+    ]);
+  }
 
-        if ($layanan->logo) {
-            Storage::disk('public')->delete($layanan->logo);
-        }
-    
-        $validated['logo'] = $request
-            ->file('logo')
-            ->store('layanan-logo', 'public');
-        }
+  public function toggleStatus(Layanan $layanan)
+  {
+    $this->authorizeLayanan($layanan);
 
-        
+    $layanan->update([
+      "status" => !$layanan->status,
+    ]);
 
-        $layanan->update([
-            ...$validated,
-            'status' => $validated['status'] ?? true,
-            'urutan' => $validated['urutan'] ?? 0,
-        ]);
+    return back();
+  }
 
-        return to_route('admin.layanan.index')
-            ->with('success', 'Layanan berhasil diperbarui.');
-    }
-
-    public function destroy(Layanan $layanan)
-    {
-        $this->authorizeLayanan($layanan);
-        
-        if ($layanan->logo) {
-            Storage::disk('public')->delete($layanan->logo);
-        }
-
-        $layanan->delete();
-
-        return back()->with(
-            'success',
-            'Layanan berhasil dihapus.'
-        );
-    }
-
-    public function reorder(Request $request)
-    {
-        $request->validate([
-            'ids' => ['required', 'array'],
-        ]);
-    
-        collect($request->ids)->each(function ($id, $index) {
-            Layanan::whereKey($id)
-                ->whereBelongsTo(auth()->user()->group)
-                ->update([
-                    'urutan' => $index + 1,
-                ]);
-        });
-    
-        return response()->json([
-            'success' => true,
-        ]);
-    }
-
-    public function toggleStatus(Layanan $layanan)
-    {
-        $this->authorizeLayanan($layanan);
-
-        $layanan->update([
-            'status' => ! $layanan->status,
-        ]);
-
-        return back();
-    }
-
-    private function authorizeLayanan(Layanan $layanan): void
-    {
-        abort_unless(
-            $layanan->group_id === auth()->user()->group_id,
-            403
-        );
-    }
+  private function authorizeLayanan(Layanan $layanan): void
+  {
+    abort_unless($layanan->group_id === auth()->user()->group_id, 403);
+  }
 }
