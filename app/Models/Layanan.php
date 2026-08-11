@@ -10,73 +10,79 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Layanan extends Model
 {
-    protected $fillable = [
-        'group_id',
-        'created_by',
-        'nama_layanan',
-        'logo',
-        'deskripsi',
-        'link',
-        'urutan',
-        'status',
+  protected $fillable = [
+    "group_id",
+    "created_by",
+    "nama_layanan",
+    "logo",
+    "deskripsi",
+    "link",
+    "urutan",
+    "status",
+  ];
+
+  protected function casts(): array
+  {
+    return [
+      "status" => "boolean",
     ];
+  }
 
-    protected function casts(): array
-    {
-        return [
-            'status' => 'boolean',
-        ];
+  public function group(): BelongsTo
+  {
+    return $this->belongsTo(Group::class);
+  }
+
+  public function users(): BelongsTo
+  {
+    return $this->belongsTo(User::class);
+  }
+
+  public function creator(): BelongsTo
+  {
+    return $this->belongsTo(User::class, "created_by");
+  }
+
+  public function dokumens(): HasMany
+  {
+    return $this->hasMany(Dokumen::class);
+  }
+
+  public function sops(): HasMany
+  {
+    return $this->hasMany(Sop::class);
+  }
+
+  public function analyticsLogs(): HasMany
+  {
+    return $this->hasMany(AnalyticsLog::class);
+  }
+
+  #[Scope]
+  protected function filter(Builder $query, ?string $search): void
+  {
+    if (!$search) {
+      return;
     }
 
-    public function group(): BelongsTo
-    {
-        return $this->belongsTo(Group::class);
-    }
-  
-    public function users(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+    $query->where(function ($query) use ($search) {
+      $query
+        ->where("nama_layanan", "like", "%{$search}%")
+        ->orWhere("deskripsi", "like", "%{$search}%");
+    });
+  }
 
-    public function creator(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
+  #[Scope]
+  protected function popular(Builder $query): void
+  {
+    $query->orderByDesc("clicks");
+  }
 
-    public function dokumens(): HasMany
-    {
-        return $this->hasMany(Dokumen::class);
+  #[Scope]
+  protected function byUser(Builder $query, ?int $userId): void
+  {
+    if ($userId) {
+      $query->where("created_by", $userId);
     }
-
-    public function sops(): HasMany
-    {
-        return $this->hasMany(Sop::class);
-    }
-    
-      #[Scope]
-      protected function filter(Builder $query, ?string $search): void
-      {
-          if (! $search) {
-              return;
-          }
-      
-          $query->where(function ($query) use ($search) {
-              $query->where('nama_layanan', 'like', "%{$search}%")
-                    ->orWhere('deskripsi', 'like', "%{$search}%");
-          });
-      }
-      
-      #[Scope]
-      protected function popular(Builder $query): void
-      {
-          $query->orderByDesc('clicks');
-      }
-      
-      #[Scope]
-      protected function byUser(Builder $query, ?int $userId): void
-      {
-          if ($userId) {
-              $query->where('created_by', $userId);
-          }
-      }
+  }
 }

@@ -7,22 +7,22 @@ use App\Models\User;
 
 class LayananPolicy
 {
-    public function update(User $user, Layanan $layanan): bool
-    {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
-        return $user->isAdmin() && $layanan->unit->fakultas_id === $user->fakultas_id;
+  public function update(User $user, Layanan $layanan): bool
+  {
+    if ($user->isSuperAdmin()) {
+      return true;
     }
 
-    public function delete(User $user, Layanan $layanan): bool
-    {
-        return $this->update($user, $layanan);
-    }
+    return $user->isAdmin() && $user->group_id === $layanan->group_id;
+  }
 
-    public function reorder(User $user, Layanan $layanan): bool
-    {
-        return $this->update($user, $layanan);
-    }
+  public function delete(User $user, Layanan $layanan): bool
+  {
+    return $this->update($user, $layanan);
+  }
+
+  public function reorder(User $user, Layanan $layanan): bool
+  {
+    return $this->update($user, $layanan);
+  }
 }
