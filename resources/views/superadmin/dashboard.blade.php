@@ -71,7 +71,7 @@
                         <td class="p-3">{{ $item->nama_layanan }}</td>
                         <td class="p-3">
                             <img
-                                src="{{ asset('/logo/gambar.png') }}"
+                                src="{{ Storage::url($item->logo ?? 'layanan-logo/gambar.png') }}"
                                 alt="logo"
                                 class="size-8 rounded-full"
                             />
