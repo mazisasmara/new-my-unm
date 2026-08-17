@@ -38,14 +38,15 @@ class LayananController extends Controller
 
     $kategori = Kategori::where("slug", $slug)
       ->with([
+        "groups" => function ($query) {
+          $query->where("status", true)->orderBy("urutan");
+        },
+
         "groups.layanans" => function ($query) {
           $query
             ->where("status", true)
             ->filter(request("search"))
-            ->when(
-              request("user"),
-              fn($q, $userId) => $q->byUser(request("user"))
-            )
+            ->when(request("user"), fn($q, $userId) => $q->byUser($userId))
             ->orderBy("urutan");
         },
       ])

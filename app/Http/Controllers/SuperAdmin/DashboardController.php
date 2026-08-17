@@ -31,7 +31,9 @@ class DashboardController extends Controller
       ->get();
 
     $kategoris = Kategori::orderBy("urutan")->get();
-    $groups = Group::with("user")->get();
+    $groups = Group::with("user")
+      ->orderBy("urutan")
+      ->get();
 
     $days = (int) request("days", 7);
 
@@ -42,10 +44,7 @@ class DashboardController extends Controller
     $websiteAnalytics = $analyticsService->websiteVisits($days);
 
     $websiteTotalVisitors = $analyticsService->totalWebsiteVisitors($days);
-   $serviceAnalytics = $analyticsService->serviceVisits(
-    $layananList,
-    $days
-);
+    $serviceAnalytics = $analyticsService->serviceVisits($layananList, $days);
 
     return view("superadmin.dashboard", [
       "title" => "Dashboard Superadmin",
@@ -55,7 +54,7 @@ class DashboardController extends Controller
       "groups" => $groups,
       "websiteAnalytics" => $websiteAnalytics,
       "websiteTotalVisitors" => $websiteTotalVisitors,
-                "serviceAnalytics" => $serviceAnalytics,
+      "serviceAnalytics" => $serviceAnalytics,
       "days" => $days,
     ]);
   }

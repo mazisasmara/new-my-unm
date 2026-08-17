@@ -355,16 +355,27 @@
 
 
         {{-- SEMUA GROUP --}}
-        <div class="mb-3">
-
-            <h2 class="font-semibold text-lg text-gray-800">
-                Semua Group
-            </h2>
-
-            <p class="text-sm text-gray-500">
-                Daftar group dan admin yang mengelolanya.
-            </p>
-
+        <div class="flex items-center justify-between mb-3">
+        
+            <div>
+                <h2 class="font-semibold text-lg text-gray-800">
+                    Semua Group
+                </h2>
+        
+                <p class="text-sm text-gray-500">
+                    Daftar group dan admin yang mengelolanya.
+                </p>
+            </div>
+        
+            <a
+                href="{{ route('superadmin.groups.order') }}"
+                class="inline-flex items-center px-4 py-2
+                       bg-blue-600 text-white text-sm font-medium
+                       rounded-lg hover:bg-blue-700 transition"
+            >
+                Atur Urutan
+            </a>
+        
         </div>
 
 
