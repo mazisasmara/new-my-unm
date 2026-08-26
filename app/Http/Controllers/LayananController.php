@@ -51,8 +51,13 @@ class LayananController extends Controller
         },
       ])
       ->firstOrFail();
+    $views = [
+      "portal-prodi" => "prodi",
+    ];
 
-    return view("layanan", [
+    $view = $views[$slug] ?? "layanan";
+
+    return view($view, [
       "title" => $kategori->nama_kategori,
       "kategori" => $kategori,
     ]);
