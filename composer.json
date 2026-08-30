@@ -71,7 +71,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "fruitcake/laravel-debugbar"
+            ]
         }
     },
     "config": {

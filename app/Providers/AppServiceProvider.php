@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Kategori;
 use Carbon\Carbon;
+use Fruitcake\LaravelDebugbar\ServiceProvider as DebugbarServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -16,7 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if ($this->app->environment('local') && class_exists(DebugbarServiceProvider::class)) {
+            $this->app->register(DebugbarServiceProvider::class);
+        }
     }
 
     /**
