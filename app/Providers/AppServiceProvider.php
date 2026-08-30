@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use App\Models\Kategori;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Throwable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,9 +24,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('kategoris', Schema::hasTable('kategoris')
-            ? Kategori::orderBy('urutan')->get()
-            : collect());
+        View::composer('components.navbar', function ($view): void {
+            try {
+                $kategoris = Cache::remember(
+                    'navigation.kategoris',
+                    now()->addMinutes(10),
+                    fn () => Kategori::orderBy('urutan')->get(),
+                );
+            } catch (Throwable $exception) {
+                try {
+                    report($exception);
+                } catch (Throwable) {
+                    // Navigation is non-critical while the database is unavailable.
+                }
+                $kategoris = collect();
+            }
+
+            $view->with('kategoris', $kategoris);
+        });
         Carbon::setLocale('id');
     }
 }

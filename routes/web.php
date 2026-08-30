@@ -21,10 +21,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get(
-    '/',
-    fn () => app(LayananController::class)->kategori('universitas')
-)->name('home');
+Route::get('/', [LayananController::class, 'kategori'])->name('home');
 
 Route::get('/visit/{layanan}', [LayananController::class, 'visit'])->name(
     'layanan.visit'

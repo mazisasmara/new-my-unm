@@ -9,6 +9,7 @@ class AnalyticsLog extends Model
 {
     protected $fillable = [
         'ip_address',
+        'visitor_key',
         'log_type',
         'layanan_id',
         'prodi_link_id',

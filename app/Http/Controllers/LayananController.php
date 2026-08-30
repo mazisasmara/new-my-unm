@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnalyticsLog;
 use App\Models\Kategori;
 use App\Models\Layanan;
 use App\Models\User;
+use App\Services\AnalyticsRecorder;
 
 class LayananController extends Controller
 {
@@ -15,7 +15,7 @@ class LayananController extends Controller
       |--------------------------------------------------------------------------
       */
 
-    public function kategori($slug = 'universitas')
+    public function kategori(AnalyticsRecorder $analytics, $slug = 'universitas')
     {
         if (request()->filled('user') && ctype_digit((string) request('user'))) {
             $legacyUser = User::whereKey(request('user'))->where('role', 'admin')->firstOrFail();
@@ -23,23 +23,7 @@ class LayananController extends Controller
             return redirect()->to(request()->fullUrlWithQuery(['user' => $legacyUser->username]));
         }
 
-        $today = now()->toDateString();
-        $ip = request()->ip();
-
-        $exists = AnalyticsLog::where('ip_address', $ip)
-            ->where('visited_at', $today)
-            ->where('log_type', 'website_visit')
-            ->exists();
-
-        if (! $exists) {
-            AnalyticsLog::create([
-                'ip_address' => $ip,
-                'log_type' => 'website_visit',
-                'layanan_id' => null,
-                'user_agent' => request()->userAgent(),
-                'visited_at' => $today,
-            ]);
-        }
+        $analytics->record(request(), 'website_visit');
 
         $filteredUser = null;
         if (request()->filled('user')) {
@@ -79,25 +63,9 @@ class LayananController extends Controller
         ]);
     }
 
-    public function visit(Layanan $layanan)
+    public function visit(Layanan $layanan, AnalyticsRecorder $analytics)
     {
-        $today = now()->toDateString();
-
-        $exists = AnalyticsLog::where('ip_address', request()->ip())
-            ->where('visited_at', $today)
-            ->where('log_type', 'service_visit')
-            ->where('layanan_id', $layanan->id)
-            ->exists();
-
-        if (! $exists) {
-            AnalyticsLog::create([
-                'ip_address' => request()->ip(),
-                'log_type' => 'service_visit',
-                'layanan_id' => $layanan->id,
-                'user_agent' => request()->userAgent(),
-                'visited_at' => $today,
-            ]);
-        }
+        $analytics->record(request(), 'service_visit', layananId: $layanan->id);
 
         $layanan->increment('clicks');
 
