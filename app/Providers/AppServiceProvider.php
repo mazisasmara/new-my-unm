@@ -30,10 +30,16 @@ class AppServiceProvider extends ServiceProvider
         View::composer('components.navbar', function ($view): void {
             try {
                 $kategoris = Cache::remember(
-                    'navigation.kategoris',
+                    'navigation.kategoris.v2',
                     now()->addMinutes(10),
                     fn () => Kategori::orderBy('urutan')->get(),
                 );
+                $kategoris = collect($kategoris);
+
+                if ($kategoris->contains(fn ($kategori) => ! $kategori instanceof Kategori)) {
+                    Cache::forget('navigation.kategoris.v2');
+                    $kategoris = Kategori::orderBy('urutan')->get();
+                }
             } catch (Throwable $exception) {
                 try {
                     report($exception);
