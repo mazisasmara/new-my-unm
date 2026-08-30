@@ -10,14 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Group extends Model
 {
     protected $table = 'groups';
-    protected $fillable = ['kategori_id','nama_group', 'slug', 'urutan', 'status'];
+
+    protected $fillable = ['kategori_id', 'nama_group', 'slug', 'urutan', 'status'];
 
     protected function casts(): array
-      {
-          return [
-              'status' => 'boolean',
-          ];
-      }
+    {
+        return [
+            'status' => 'boolean',
+        ];
+    }
 
     public function kategori(): BelongsTo
     {
@@ -28,8 +29,14 @@ class Group extends Model
     {
         return $this->hasOne(User::class);
     }
+
     public function layanans(): HasMany
     {
         return $this->hasMany(Layanan::class);
+    }
+
+    public function prodis(): HasMany
+    {
+        return $this->hasMany(Prodi::class);
     }
 }

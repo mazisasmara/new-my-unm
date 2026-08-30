@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 use App\Models\Kategori;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,10 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share(
-            'kategoris',
-            Kategori::orderBy('urutan')->get()
-        );
-      Carbon::setLocale('id');
+        View::share('kategoris', Schema::hasTable('kategoris')
+            ? Kategori::orderBy('urutan')->get()
+            : collect());
+        Carbon::setLocale('id');
     }
 }

@@ -2,127 +2,57 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\Group;
 use App\Models\Layanan;
+use Illuminate\Database\Seeder;
 
 class LayananSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = [
-            [
-                'group_id' => 1,
-                'created_by' => 1,
-                'nama_layanan' => 'Website Resmi UNM',
-                'logo' => null,
-                'deskripsi' => 'Portal resmi Universitas Negeri Makassar',
-                'link' => 'https://unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
-            ],
+        // Portal Prodi menggunakan struktur judul + banyak tautan, bukan layanan biasa.
+        Layanan::whereHas('group.kategori', fn ($query) => $query->where('slug', 'portal-prodi'))->delete();
 
-            [
-                'group_id' => 1,
-                'created_by' => 1,
-                'nama_layanan' => 'SIA UNM',
-                'logo' => null,
-                'deskripsi' => 'Sistem Informasi Akademik UNM',
-                'link' => 'https://sia.unm.ac.id',
-                'status' => true,
-                'urutan' => 2,
+        $services = [
+            'universitas-negeri-makassar' => [
+                ['Website Resmi UNM', 'Portal resmi Universitas Negeri Makassar', 'https://unm.ac.id'],
+                ['SIA UNM', 'Sistem Informasi Akademik UNM', 'https://sia.unm.ac.id'],
+                ['PMB UNM', 'Portal Penerimaan Mahasiswa Baru', 'https://pmb.unm.ac.id'],
             ],
-
-            [
-                'group_id' => 1,
-                'created_by' => 1,
-                'nama_layanan' => 'PMB UNM',
-                'logo' => null,
-                'deskripsi' => 'Portal Penerimaan Mahasiswa Baru',
-                'link' => 'https://pmb.unm.ac.id',
-                'status' => true,
-                'urutan' => 3,
+            'fakultas-teknik' => [
+                ['Website Fakultas Teknik', 'Website resmi Fakultas Teknik', 'https://ft.unm.ac.id'],
+                ['Laboratorium FT', 'Portal informasi laboratorium Fakultas Teknik', 'https://lab.ft.unm.ac.id'],
             ],
-
-            [
-                'group_id' => 2,
-                'created_by' => 2,
-                'nama_layanan' => 'Website Fakultas Teknik',
-                'logo' => null,
-                'deskripsi' => 'Website resmi Fakultas Teknik',
-                'link' => 'https://ft.unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
+            'fakultas-ekonomi' => [
+                ['Website Fakultas Ekonomi', 'Website resmi Fakultas Ekonomi', 'https://fe.unm.ac.id'],
             ],
-
-            [
-                'group_id' => 2,
-                'created_by' => 2,
-                'nama_layanan' => 'Laboratorium FT',
-                'logo' => null,
-                'deskripsi' => 'Portal informasi laboratorium Fakultas Teknik',
-                'link' => 'https://lab.ft.unm.ac.id',
-                'status' => true,
-                'urutan' => 2,
+            'fakultas-mipa' => [
+                ['Website Fakultas MIPA', 'Website resmi Fakultas MIPA', 'https://fmipa.unm.ac.id'],
             ],
-
-            [
-                'group_id' => 3,
-                'created_by' => 1,
-                'nama_layanan' => 'Website Fakultas Ekonomi',
-                'logo' => null,
-                'deskripsi' => 'Website resmi Fakultas Ekonomi',
-                'link' => 'https://fe.unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
+            'kemahasiswaan' => [
+                ['Kemahasiswaan UNM', 'Portal kegiatan mahasiswa', 'https://kemahasiswaan.unm.ac.id'],
             ],
-
-            [
-                'group_id' => 4,
-                'created_by' => 1,
-                'nama_layanan' => 'Website Fakultas MIPA',
-                'logo' => null,
-                'deskripsi' => 'Website resmi Fakultas MIPA',
-                'link' => 'https://fmipa.unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
-            ],
-
-            [
-                'group_id' => 5,
-                'created_by' => 1,
-                'nama_layanan' => 'Kemahasiswaan UNM',
-                'logo' => null,
-                'deskripsi' => 'Portal kegiatan mahasiswa',
-                'link' => 'https://kemahasiswaan.unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
-            ],
-
-            [
-                'group_id' => 6,
-                'created_by' => 1,
-                'nama_layanan' => 'Perpustakaan Digital',
-                'logo' => null,
-                'deskripsi' => 'Layanan perpustakaan digital UNM',
-                'link' => 'https://library.unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
-            ],
-
-            [
-                'group_id' => 7,
-                'created_by' => 1,
-                'nama_layanan' => 'Portal Program Studi',
-                'logo' => null,
-                'deskripsi' => 'Daftar seluruh program studi UNM',
-                'link' => 'https://prodi.unm.ac.id',
-                'status' => true,
-                'urutan' => 1,
+            'perpustakaan-unm' => [
+                ['Perpustakaan Digital', 'Layanan perpustakaan digital UNM', 'https://library.unm.ac.id'],
             ],
         ];
 
-        foreach ($data as $item) {
-            Layanan::create($item);
+        foreach ($services as $groupSlug => $items) {
+            $group = Group::with('user')->where('slug', $groupSlug)->firstOrFail();
+
+            foreach ($items as $index => [$name, $description, $url]) {
+                Layanan::updateOrCreate(
+                    ['group_id' => $group->id, 'nama_layanan' => $name],
+                    [
+                        'created_by' => $group->user->id,
+                        'logo' => null,
+                        'deskripsi' => $description,
+                        'link' => $url,
+                        'status' => true,
+                        'urutan' => $index + 1,
+                    ]
+                );
+            }
         }
     }
 }

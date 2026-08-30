@@ -3,17 +3,21 @@
         {{ $title }}
     </x-slot:title>
 
-    <div class="max-w-2xl mx-auto py-8 px-4">
-        <h1 class="text-2xl font-bold mb-6">Edit Layanan</h1>
+    <div class="mx-auto max-w-3xl">
+        <div class="rounded-t-lg border border-slate-200 bg-slate-50 px-6 py-4"><h2 class="text-lg font-bold text-slate-800">Edit Informasi Layanan</h2><p class="text-sm text-slate-500">Perbarui data, pemilik, dan status layanan.</p></div>
 
         <form
             action="{{ route('admin.layanan.update', $layanan) }}"
             method="POST"
             enctype="multipart/form-data"
-            class="space-y-4"
+            class="space-y-5 rounded-b-lg border border-t-0 border-slate-200 bg-white p-6 shadow-sm"
         >
             @csrf
             @method ('PUT')
+
+            @if(auth()->user()->isSuperAdmin())
+                <div><label class="mb-1.5 block text-sm font-semibold text-slate-700">Pemilik / Grup</label><select name="group_id" required class="w-full rounded-md border border-slate-300 px-3 py-2.5">@foreach($groups as $group)<option value="{{ $group->id }}" @selected(old('group_id', $layanan->group_id) == $group->id)>{{ $group->nama_group }} · {{ $group->kategori->nama_kategori }} ({{ $group->user?->username ?? 'tanpa admin' }})</option>@endforeach</select></div>
+            @endif
 
             <div>
                 <label class="block mb-1 font-medium"> Nama Layanan </label>
@@ -82,12 +86,7 @@
                 </label>
             </div>
 
-            <button
-                type="submit"
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg"
-            >
-                Simpan Perubahan
-            </button>
+            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('admin.layanan.index') }}" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Batal</a><button type="submit" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white">Simpan Perubahan</button></div>
         </form>
     </div>
 </x-layout>

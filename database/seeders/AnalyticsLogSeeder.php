@@ -4,69 +4,91 @@ namespace Database\Seeders;
 
 use App\Models\AnalyticsLog;
 use App\Models\Layanan;
-use Carbon\Carbon;
+use App\Models\ProdiLink;
 use Illuminate\Database\Seeder;
 
 class AnalyticsLogSeeder extends Seeder
 {
-  public function run(): void
-  {
-    // Hapus data analytics dummy sebelumnya
-    AnalyticsLog::query()->delete();
+    private const USER_AGENT = 'UNM Analytics Seeder';
 
-    $layanans = Layanan::all();
+    public function run(): void
+    {
+        // Hanya ganti data dummy; traffic asli tetap dipertahankan.
+        AnalyticsLog::where('user_agent', self::USER_AGENT)->delete();
 
-    if ($layanans->isEmpty()) {
-      $this->command->warn("Tidak ada layanan. Seeder dibatalkan.");
-      return;
-    }
+        $layanans = Layanan::all();
+        $prodiLinks = ProdiLink::all();
+        $rows = [];
 
-    /*
-     * Dummy service visit selama 7 hari terakhir.
-     *
-     * Setiap IP hanya dihitung satu kali per layanan
-     * dalam satu hari.
-     */
-    foreach ($layanans as $layanan) {
-      for ($daysAgo = 6; $daysAgo >= 0; $daysAgo--) {
-        $date = Carbon::today()->subDays($daysAgo);
+        // Hari ini dan delapan hari sebelumnya.
+        foreach (range(8, 0) as $daysAgo) {
+            $date = today()->subDays($daysAgo)->toDateString();
+            $timestamp = now();
 
-        // Jumlah visitor dibuat berbeda-beda agar grafik terlihat.
-        $visitorCount = rand(1, 8);
+            // Traffic website: 18-30 unique visitor per hari.
+            $websiteVisitors = 18 + (($daysAgo * 7) % 13);
+            for ($visitor = 1; $visitor <= $websiteVisitors; $visitor++) {
+                $rows[] = $this->row(
+                    "172.20.{$daysAgo}.{$visitor}",
+                    'website_visit',
+                    $date,
+                    $timestamp
+                );
+            }
 
-        for ($i = 1; $i <= $visitorCount; $i++) {
-          AnalyticsLog::create([
-            "ip_address" => "10.0.{$layanan->id}.{$i}",
-            "log_type" => "service_visit",
-            "layanan_id" => $layanan->id,
-            "user_agent" => "Dummy Analytics Seeder",
-            "visited_at" => $date->toDateString(),
-          ]);
+            // Visitor layanan: pola berbeda untuk setiap layanan dan hari.
+            foreach ($layanans as $layanan) {
+                $visitorCount = 2 + (($layanan->id + ($daysAgo * 3)) % 7);
+                for ($visitor = 1; $visitor <= $visitorCount; $visitor++) {
+                    $rows[] = $this->row(
+                        "10.{$daysAgo}.{$layanan->id}.{$visitor}",
+                        'service_visit',
+                        $date,
+                        $timestamp,
+                        layananId: $layanan->id
+                    );
+                }
+            }
+
+            // Visitor tautan prodi agar dashboard admin prodi juga memiliki chart.
+            foreach ($prodiLinks as $link) {
+                $visitorCount = 1 + (($link->id + $daysAgo) % 5);
+                for ($visitor = 1; $visitor <= $visitorCount; $visitor++) {
+                    $rows[] = $this->row(
+                        "10.200.{$daysAgo}.".(($link->id * 10) + $visitor),
+                        'prodi_link_visit',
+                        $date,
+                        $timestamp,
+                        prodiLinkId: $link->id
+                    );
+                }
+            }
         }
-      }
+
+        foreach (array_chunk($rows, 500) as $chunk) {
+            AnalyticsLog::insert($chunk);
+        }
+
+        $this->command?->info('Traffic website dan visitor untuk 9 hari berhasil dibuat.');
     }
 
-    /*
-     * Dummy website visitor.
-     *
-     * Website visitor tidak memiliki layanan_id.
-     */
-    for ($daysAgo = 6; $daysAgo >= 0; $daysAgo--) {
-      $date = Carbon::today()->subDays($daysAgo);
-
-      $visitorCount = rand(5, 15);
-
-      for ($i = 1; $i <= $visitorCount; $i++) {
-        AnalyticsLog::create([
-          "ip_address" => "192.168.1.{$i}",
-          "log_type" => "website_visit",
-          "layanan_id" => null,
-          "user_agent" => "Dummy Analytics Seeder",
-          "visited_at" => $date->toDateString(),
-        ]);
-      }
+    private function row(
+        string $ip,
+        string $type,
+        string $date,
+        $timestamp,
+        ?int $layananId = null,
+        ?int $prodiLinkId = null
+    ): array {
+        return [
+            'ip_address' => $ip,
+            'log_type' => $type,
+            'layanan_id' => $layananId,
+            'prodi_link_id' => $prodiLinkId,
+            'user_agent' => self::USER_AGENT,
+            'visited_at' => $date,
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp,
+        ];
     }
-
-    $this->command->info("Dummy analytics berhasil dibuat.");
-  }
 }

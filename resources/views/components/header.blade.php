@@ -1,5 +1,6 @@
-  <header class="relative bg-violet-200 after:pointer-events-none after:absolute after:inset-x-0 after:inset-y-0 after:border-y after:border-white/10">
-    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold tracking-tight text-black">{{ $slot }}</h1>
+<header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto max-w-7xl px-4 py-5 pl-16 sm:px-6 md:pl-6 lg:px-8">
+        <p class="mb-1 text-xs font-semibold uppercase tracking-widest text-blue-700">Pusat Referensi dan Arsip</p>
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{{ $slot }}</h1>
     </div>
-  </header>
+</header>

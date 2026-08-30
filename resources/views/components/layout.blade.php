@@ -1,53 +1,28 @@
 <!doctype html>
-<html lang="en" class="h-full bg-white">
+<html lang="id" class="h-full bg-slate-50">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Halaman Home</title>
-    <!-- Cpu perangkatku tidak bisa menjalankan vite v8 untuk npm run dev saat devlopment, saya menggunakan cdn sebagai alternatif. Apabila telah deploymen hapus link cdn ini dan gunakan npm run dev -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"
-        type="module"
-    ></script>
-    <!-- using cdn -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css"
-        rel="stylesheet"
-    />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Arsip Digital UNM' }} · Universitas Negeri Makassar</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="h-full">
-    <div class="min-h-full">
-        <x-navbar></x-navbar>
-
-        <x-header
-            >{{ $title }}
-            @auth
-                <form
-                    action="{{ route('logout') }}"
-                    method="POST"
-                    class="inline"
-                >
-                    @csrf
-                    <button
-                        type="submit"
-                        class="text-sm text-red-600 hover:underline"
-                    >
-                        Logout
-                    </button>
-                </form>
-            @endauth
-        </x-header>
-
-        <main>
-            <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                {{ $slot }}
-            </div>
+<body class="min-h-full bg-slate-50 text-slate-800">
+    <x-navbar />
+    <div class="min-h-screen md:pl-72">
+        <x-header>{{ $title ?? 'Arsip Digital UNM' }}</x-header>
+        <main class="min-h-[calc(100vh-13rem)]">
+            <div class="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8">{{ $slot }}</div>
         </main>
+        <x-footer />
     </div>
-
-    <!-- flowbite javascript cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script>
+        const sidebar = document.getElementById('app-sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        function toggleSidebar(forceClose = false) {
+            const opening = !forceClose && sidebar.classList.contains('-translate-x-full');
+            sidebar.classList.toggle('-translate-x-full', !opening);
+            backdrop.classList.toggle('hidden', !opening);
+        }
+    </script>
 </body>
 </html>

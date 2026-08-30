@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             GroupSeeder::class,
             UserSeeder::class,
             LayananSeeder::class,
+            ProdiSeeder::class,
+            AnalyticsLogSeeder::class,
         ]);
     }
 }

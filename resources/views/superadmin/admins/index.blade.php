@@ -1,47 +1,11 @@
 <x-layout>
-    <x-slot:title>{{ $title }}</x-slot:title>
-  
-<div class="max-w-3xl mx-auto py-8 px-4">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-xl font-bold">Kelola Akun Admin</h1>
-        <a href="{{ route('superadmin.admins.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-md">
-            + Tambah Admin
-        </a>
+    <x-slot:title>Kelola Akun Admin</x-slot:title>
+    <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+        <div class="flex flex-col gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"><div><h2 class="font-bold text-slate-800">Daftar Admin Unit</h2><p class="text-sm text-slate-500">Akun pengelola beserta kategori dan konten yang menjadi tanggung jawabnya.</p></div><a href="{{ route('superadmin.admins.create') }}" class="rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700">+ Tambah Admin</a></div>
+        @if(session('success'))<div class="m-5 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700">{{ session('success') }}</div>@endif
+        <form method="GET" class="grid gap-3 border-b border-slate-200 p-4 sm:grid-cols-2 lg:grid-cols-4"><input name="search" value="{{ request('search') }}" placeholder="Cari username, email, atau unit..." class="rounded-md border border-slate-300 px-3 py-2 text-sm lg:col-span-2"><select name="kategori" class="rounded-md border border-slate-300 px-3 py-2 text-sm"><option value="">Semua kategori</option>@foreach($kategoriList as $kategori)<option value="{{ $kategori->id }}" @selected(request('kategori') == $kategori->id)>{{ $kategori->nama_kategori }}</option>@endforeach</select><select name="status" class="rounded-md border border-slate-300 px-3 py-2 text-sm"><option value="">Semua status</option><option value="1" @selected(request('status') === '1')>Aktif</option><option value="0" @selected(request('status') === '0')>Nonaktif</option></select><div class="flex gap-2 lg:col-span-4 lg:justify-end"><button class="rounded-md bg-slate-700 px-4 py-2 text-sm font-semibold text-white">Filter</button><a href="{{ route('superadmin.admins.index') }}" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Reset</a></div></form>
+        <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="border-b bg-slate-50 text-xs uppercase text-slate-500"><tr><th class="px-4 py-3">Akun</th><th class="px-4 py-3">Unit / Grup</th><th class="px-4 py-3">Kategori</th><th class="px-4 py-3">Konten</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Aksi</th></tr></thead><tbody class="divide-y divide-slate-100">
+            @forelse($admins as $admin)<tr class="hover:bg-slate-50"><td class="px-4 py-3"><p class="font-semibold text-slate-800">{{ $admin->username }}</p><p class="text-xs text-slate-500">{{ $admin->email }}</p></td><td class="px-4 py-3">{{ $admin->group?->nama_group ?? '-' }}</td><td class="px-4 py-3">{{ $admin->group?->kategori?->nama_kategori ?? '-' }}</td><td class="px-4 py-3">{{ $admin->group?->kategori?->slug === 'portal-prodi' ? $admin->group?->prodis->count().' portal prodi' : $admin->group?->layanans->count().' layanan' }}</td><td class="px-4 py-3"><span class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $admin->status ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600' }}">{{ $admin->status ? 'Aktif' : 'Nonaktif' }}</span></td><td class="px-4 py-3 text-right"><form action="{{ route('superadmin.admins.destroy', $admin) }}" method="POST" onsubmit="return confirm('Hapus akun admin ini?')">@csrf @method('DELETE')<button class="rounded bg-red-600 px-2.5 py-1.5 text-xs font-semibold text-white">Hapus</button></form></td></tr>@empty<tr><td colspan="6" class="px-5 py-12 text-center text-slate-500">Tidak ada admin yang sesuai dengan filter.</td></tr>@endforelse
+        </tbody></table></div>
     </div>
-
-    @if (session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
-    @endif
-
-    <table class="w-full bg-white rounded-lg shadow-sm text-sm">
-        <thead>
-            <tr class="text-left border-b">
-                <th class="p-3">Username</th>
-                <th class="p-3">Email</th>
-                <th class="p-3">Group</th>
-                <th class="p-3">Slug</th>
-                <th class="p-3">Jumlah Layanan</th>
-                <th class="p-3"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($admins as $admin)
-                <tr class="border-b">
-                    <td class="p-3">{{ $admin->username }}</td>
-                    <td class="p-3">{{ $admin->email }}</td>
-                    <td class="p-3">{{ $admin->group->nama_group ?? '-' }}</td>
-                    <td class="p-3">{{ $admin->group->slug ?? '-' }}</td>
-                    <td class="p-3">{{ $admin->group->layanans->where('created_by', $admin->id)->count() ?? '-' }}</td>
-                    <td class="p-3">
-                        <form action="{{ route('superadmin.admins.destroy', $admin) }}" method="POST"
-                              onsubmit="return confirm('Hapus akun ini?')">
-                            @csrf @method('DELETE')
-                            <button class="text-red-600 hover:underline">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
 </x-layout>

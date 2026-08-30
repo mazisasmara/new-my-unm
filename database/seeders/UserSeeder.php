@@ -2,49 +2,42 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $ft = Group::where('slug', 'fakultas-teknik')->first();
-        $fe = Group::where('slug', 'fakultas-ekonomi')->first();
-
         User::updateOrCreate(
             ['email' => 'superadmin@unm.test'],
-            [
-                'username' => 'ict',
-                'password' => Hash::make('ictunm123'),
-                'role' => 'superadmin',
-                'status' => true,
-                'group_id' => null,
-            ]
+            ['username' => 'ict', 'password' => 'ictunm123', 'role' => 'superadmin', 'status' => true, 'group_id' => null]
         );
 
-        User::updateOrCreate(
-            ['email' => 'ft@unm.test'],
-            [
-                'username' => 'admin_ft',
-                'password' => Hash::make('password'),
-                'role' => 'admin',
-                'status' => true,
-                'group_id' => $ft->id,
-            ]
-        );
+        $admins = [
+            'universitas-negeri-makassar' => ['admin_universitas', 'universitas@unm.test'],
+            'fakultas-teknik' => ['admin_ft', 'ft@unm.test'],
+            'fakultas-ekonomi' => ['admin_fe', 'fe@unm.test'],
+            'fakultas-mipa' => ['admin_fmipa', 'fmipa@unm.test'],
+            'kemahasiswaan' => ['admin_mahasiswa', 'mahasiswa@unm.test'],
+            'perpustakaan-unm' => ['admin_perpustakaan', 'perpustakaan@unm.test'],
+            'portal-program-studi' => ['admin_prodi', 'prodi@unm.test'],
+        ];
 
-        User::updateOrCreate(
-            ['email' => 'fe@unm.test'],
-            [
-                'username' => 'admin_fe',
-                'password' => Hash::make('password'),
-                'role' => 'admin',
-                'status' => true,
-                'group_id' => $fe->id,
-            ]
-        );
+        foreach ($admins as $groupSlug => [$username, $email]) {
+            $group = Group::where('slug', $groupSlug)->firstOrFail();
+
+            User::updateOrCreate(
+                ['email' => $email],
+                [
+                    'username' => $username,
+                    'password' => 'password',
+                    'role' => 'admin',
+                    'status' => true,
+                    'group_id' => $group->id,
+                ]
+            );
+        }
     }
 }

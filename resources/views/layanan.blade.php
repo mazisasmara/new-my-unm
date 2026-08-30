@@ -3,7 +3,7 @@
         {{ $title }}
     </x-slot:title>
 
-    <x-search></x-search>
+    <x-search :owner="$filteredUser"></x-search>
 
     {{-- Daftar Layanan --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-3">
@@ -31,7 +31,7 @@
 
                             {{-- Pemilik --}}
                             <a
-                                href="{{ request()->fullUrlWithQuery(['user' => $item->creator->id]) }}"
+                                href="{{ request()->fullUrlWithQuery(['user' => $item->creator->username, 'search' => null]) }}"
                                 class="inline-block mb-2 text-sm text-blue-600 hover:underline"
                                 onclick="event.stopPropagation();"
                             >
