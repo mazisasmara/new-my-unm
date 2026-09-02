@@ -1,31 +1,443 @@
 <!doctype html>
 <html lang="id" class="h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login · Arsip Digital UNM</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="flex min-h-full items-center justify-center bg-slate-200 px-4 py-10">
-    <main class="w-full max-w-sm">
-        <div class="mb-5 text-center">
-            <div class="mx-auto mb-3 flex size-16 items-center justify-center rounded-full bg-blue-900 text-xl font-black text-yellow-400 shadow-lg">UNM</div>
-            <h1 class="text-2xl font-light text-slate-800"><strong class="font-bold">Arsip</strong> Digital</h1>
-            <p class="mt-1 text-sm text-slate-500">Universitas Negeri Makassar</p>
+
+<body class="min-h-screen bg-gray-200">
+
+    <div class="min-h-screen flex flex-col lg:flex-row">
+
+
+        {{-- =====================================================
+             PANEL KIRI
+        ====================================================== --}}
+        <div class="relative w-full lg:w-1/2 min-h-screen
+                    bg-gradient-to-b from-yellow-500
+                    via-orange-500
+                    to-orange-700">
+
+            {{-- =================================================
+                 LOGO MYUNM
+            ================================================== --}}
+            <div class="absolute top-7 left-7
+                        lg:top-8 lg:left-7">
+
+                <div class="flex items-center gap-4">
+
+                    <img
+                        src="{{ asset('storage/layanan-logo/logo-unm.png') }}"
+                        alt="Logo MyUNM"
+                        class="w-20 h-20 object-contain"
+                    >
+
+                    <div>
+
+                        <h2 class="text-2xl font-medium text-black">
+                            MyUNM
+                        </h2>
+
+                        <p class="text-sm font-medium text-blue-700">
+                            Admin Super
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- Garis --}}
+                <div class="mt-5 h-[2px] w-56 bg-white"></div>
+
+            </div>
+
+
+            {{-- =================================================
+                 KONTEN UTAMA KIRI
+            ================================================== --}}
+            <div class="absolute
+                        top-1/2
+                        left-1/2
+                        -translate-x-1/2
+                        -translate-y-1/2
+                        w-[82%]
+                        max-w-xl">
+
+                {{-- Logo UNM --}}
+                <div class="flex justify-center">
+
+                    <img
+                        src="{{ asset('storage/layanan-logo/logo-myunm.png') }}"
+                        alt="Universitas Negeri Makassar"
+                        class="w-[380px] max-w-full h-auto object-contain"
+                    >
+
+                </div>
+
+
+                {{-- Garis bawah logo --}}
+                <div class="mt-3 h-[2px] w-full bg-white"></div>
+
+
+                {{-- Selamat datang --}}
+                <h1 class="mt-4
+                           text-5xl
+                           font-normal
+                           leading-tight
+                           text-black">
+
+                    Selamat datang<br>
+                    kembali!
+
+                </h1>
+
+
+                {{-- Deskripsi --}}
+                <div class="mt-3 flex items-start gap-2">
+
+                    <span class="text-2xl leading-none text-red-500">
+                        •
+                    </span>
+
+                    <p class="text-xl leading-tight text-white">
+
+                        Silahkan login untuk mengakses<br>
+                        dashboard my.unm.ac.id
+
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <section class="overflow-hidden rounded-md border border-slate-300 bg-white shadow-lg">
-            <div class="border-t-4 border-blue-600 px-6 py-7">
-                <p class="mb-5 text-center text-sm text-slate-600">Masuk untuk memulai sesi pengelolaan</p>
-                @if($errors->any())<div class="mb-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700">{{ $errors->first() }}</div>@endif
-                <form method="POST" action="{{ url('/login') }}" class="space-y-4">@csrf
-                    <div class="flex overflow-hidden rounded border border-slate-300 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500"><input type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username" class="min-w-0 flex-1 border-0 px-3 py-2.5 text-sm outline-none" placeholder="Username"><span class="flex w-11 items-center justify-center border-l border-slate-300 bg-slate-50 text-slate-400"><svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.8" d="M20 21a8 8 0 0 0-16 0m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg></span></div>
-                    <div class="flex overflow-hidden rounded border border-slate-300 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500"><input type="password" name="password" required autocomplete="current-password" class="min-w-0 flex-1 border-0 px-3 py-2.5 text-sm outline-none" placeholder="Password"><span class="flex w-11 items-center justify-center border-l border-slate-300 bg-slate-50 text-slate-400"><svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.8" d="M7 10V7a5 5 0 0 1 10 0v3m-11 0h12v10H6V10Z"/></svg></span></div>
-                    <div class="flex items-center justify-between"><label class="flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" name="remember" class="rounded border-slate-300 text-blue-600"> Ingat saya</label><button class="rounded bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700">Masuk</button></div>
+
+        {{-- =====================================================
+             PANEL KANAN
+        ====================================================== --}}
+        <div class="w-full lg:w-1/2 min-h-screen
+                    flex items-center justify-center
+                    bg-gray-200
+                    px-6 py-10">
+
+            <section class="w-full max-w-xl
+                            rounded-2xl
+                            bg-gradient-to-b
+                            from-yellow-700
+                            via-orange-600
+                            to-orange-500
+                            px-8
+                            py-12
+                            lg:px-16
+                            lg:py-16">
+
+                {{-- =================================================
+                     ICON LOCK
+                ================================================== --}}
+                <div class="flex justify-center mb-12">
+
+                    <div class="flex items-center justify-center
+                                w-20 h-20
+                                rounded-full
+                                border-2 border-blue-300
+                                bg-blue-100
+                                shadow-md">
+
+                        <svg
+                            class="w-12 h-12 text-blue-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+
+                            <path
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M7 10V7a5 5 0 0 1 10 0v3
+                                   M6 10h12v10H6V10Z
+                                   M12 14v2" />
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+
+                {{-- =================================================
+                     INFO ADMIN SUPER
+                ================================================== --}}
+                <div class="mb-11
+                            rounded-md
+                            bg-gray-200
+                            px-5
+                            py-4
+                            text-black">
+
+                    <div class="flex items-start gap-3">
+
+                        <span class="text-xl">
+                            •
+                        </span>
+
+                        <div>
+
+                            <h3 class="text-xl font-normal">
+                                Admin super
+                            </h3>
+
+                            <p class="mt-3
+                                      text-base
+                                      leading-tight">
+
+                                Akun dengan akses penuh untuk mengelola
+                                sistem, pengguna, dan semua fitur
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- =================================================
+                     ERROR LOGIN
+                ================================================== --}}
+                @if($errors->any())
+
+                    <div class="mb-5
+                                rounded-md
+                                border border-red-300
+                                bg-red-100
+                                px-4 py-3
+                                text-sm
+                                text-red-700">
+
+                        {{ $errors->first() }}
+
+                    </div>
+
+                @endif
+
+
+                {{-- =================================================
+                     FORM LOGIN
+                ================================================== --}}
+                <form
+                    method="POST"
+                    action="{{ url('/login') }}"
+                    class="space-y-4">
+
+                    @csrf
+
+
+                    {{-- USERNAME --}}
+                    <div>
+
+                        <label
+                            for="username"
+                            class="mb-1 block text-base text-black">
+
+                            Username
+
+                        </label>
+
+                        <input
+                            id="username"
+                            type="text"
+                            name="username"
+                            value="{{ old('username') }}"
+                            required
+                            autofocus
+                            autocomplete="username"
+
+                            class="h-12
+                                   w-full
+                                   rounded-xl
+                                   border-0
+                                   bg-gray-200
+                                   px-4
+                                   text-black
+                                   outline-none
+                                   focus:ring-2
+                                   focus:ring-yellow-400">
+
+                    </div>
+
+
+                    {{-- PASSWORD --}}
+                    <div>
+
+                        <label
+                            for="password"
+                            class="mb-1 block text-base text-black">
+
+                            Password
+
+                        </label>
+
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            required
+                            autocomplete="current-password"
+
+                            class="h-12
+                                   w-full
+                                   rounded-xl
+                                   border-0
+                                   bg-gray-200
+                                   px-4
+                                   text-black
+                                   outline-none
+                                   focus:ring-2
+                                   focus:ring-yellow-400">
+
+                    </div>
+
+
+                    {{-- =================================================
+                         REMEMBER + LUPA PASSWORD
+                    ================================================== --}}
+                    <div class="flex items-center justify-between pt-1">
+
+                        <label class="flex items-center gap-2
+                                      text-sm
+                                      text-black">
+
+                            <input
+                                type="checkbox"
+                                name="remember"
+
+                                class="h-5 w-5
+                                       rounded-none
+                                       border-0
+                                       bg-gray-200
+                                       text-yellow-500
+                                       focus:ring-yellow-400">
+
+                            <span>
+                                ingat saya
+                            </span>
+
+                        </label>
+
+
+                        <a
+                            href="#"
+                            class="text-sm
+                                   text-blue-700
+                                   hover:text-blue-900
+                                   hover:underline">
+
+                            lupa password?
+
+                        </a>
+
+                    </div>
+
+
+                    {{-- =================================================
+                         TOMBOL LOGIN
+                    ================================================== --}}
+                    <div class="flex justify-center pt-1">
+
+                        <button
+                            type="submit"
+
+                            class="h-10
+                                   w-48
+                                   rounded-xl
+                                   bg-yellow-400
+                                   text-lg
+                                   font-normal
+                                   text-black
+                                   shadow-sm
+                                   transition
+                                   duration-200
+                                   hover:bg-yellow-300
+                                   active:bg-yellow-500">
+
+                            login
+
+                        </button>
+
+                    </div>
+
                 </form>
-            </div>
-            <a href="{{ route('home') }}" class="block border-t border-slate-200 bg-slate-50 px-6 py-3 text-center text-sm text-blue-700 hover:bg-slate-100">← Kembali ke halaman arsip</a>
-        </section>
-    </main>
+
+
+                {{-- =================================================
+                     SUPPORT
+                ================================================== --}}
+                <div class="mt-20">
+
+                    <div class="mb-5 h-[2px] bg-white"></div>
+
+                    <div class="flex
+                                items-center
+                                justify-center
+                                gap-2
+                                text-lg
+                                text-white">
+
+                        {{-- Icon --}}
+                        <svg
+                            class="h-6 w-6 text-black"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24">
+
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="9"
+                                stroke-width="1.8" />
+
+                            <path
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                                d="M8 13a4 4 0 0 0 8 0
+                                   M9 10h.01
+                                   M15 10h.01" />
+
+                        </svg>
+
+
+                        <span>
+                            Butuh bantuan?
+                        </span>
+
+
+                        <a
+                            href="#"
+                            class="text-blue-700
+                                   hover:text-blue-900
+                                   hover:underline">
+
+                            Hubungi Tim Support
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
 </body>
+
 </html>

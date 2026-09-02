@@ -71,4 +71,20 @@ class LayananController extends Controller
 
         return redirect()->away($layanan->link);
     }
+
+    public function show(Layanan $layanan)
+    {
+        $layanan->load(['creator', 'group.kategori']);
+
+        $kategoriSlug = $layanan->group?->kategori?->slug;
+        $backUrl = $kategoriSlug && $kategoriSlug !== 'universitas'
+            ? url($kategoriSlug)
+            : route('home');
+
+        return view('layanan-detail', [
+            'title' => $layanan->nama_layanan,
+            'layanan' => $layanan,
+            'backUrl' => $backUrl,
+        ]);
+    }
 }

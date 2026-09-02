@@ -16,9 +16,7 @@
                     $href = $item->slug === 'universitas' ? route('home') : url($item->slug);
                     $active = $item->slug === 'universitas' ? request()->is('/') : request()->is($item->slug);
                 @endphp
-                <a href="{{ $href }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition {{ $active ? 'bg-yellow-400 text-blue-950 shadow' : 'text-blue-50 hover:bg-white/10' }}">
-                    <span class="flex size-7 items-center justify-center rounded-lg {{ $active ? 'bg-blue-950/10' : 'bg-white/10' }}">{{ $loop->iteration }}</span>{{ $item->nama_kategori }}
-                </a>
+                <a href="{{ $href }}" class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition {{ $active ? 'bg-yellow-400 text-blue-950 shadow' : 'text-blue-50 hover:bg-white/10' }}"><span class="flex size-7 items-center justify-center rounded-lg {{ $active ? 'bg-blue-950/10' : 'bg-white/10' }}">{{ $loop->iteration }}</span>{{ $item->nama_kategori }}</a>
             @endforeach
         </div>
         @auth

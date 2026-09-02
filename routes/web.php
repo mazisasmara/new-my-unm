@@ -26,6 +26,9 @@ Route::get('/', [LayananController::class, 'kategori'])->name('home');
 Route::get('/visit/{layanan}', [LayananController::class, 'visit'])->name(
     'layanan.visit'
 );
+Route::get('/layanan/{layanan}', [LayananController::class, 'show'])->name(
+    'layanan.show'
+);
 Route::get('/prodi-link/{prodiLink}', [ProdiLinkController::class, 'visit'])
     ->name('prodi-link.visit');
 /*
