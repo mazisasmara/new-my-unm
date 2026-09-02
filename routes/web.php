@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\ProdiLinkController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
+use App\Http\Controllers\SuperAdmin\FooterItemController;
 use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use App\Models\Dokumen;
 use App\Models\Group;
@@ -139,6 +140,9 @@ Route::middleware(['auth', 'role:superadmin'])
             SuperAdminController::class,
             'reorderGroups',
         ])->name('groups.reorder');
+
+        Route::resource('footer-items', FooterItemController::class)
+            ->except(['show']);
     });
 
 /*

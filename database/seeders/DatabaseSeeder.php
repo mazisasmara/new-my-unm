@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             LayananSeeder::class,
             ProdiSeeder::class,
             AnalyticsLogSeeder::class,
+            FooterItemSeeder::class,
         ]);
     }
 }

@@ -28,6 +28,7 @@
                     <a href="{{ route('admin.layanan.index') }}" class="block rounded-xl px-3 py-2.5 text-sm {{ request()->routeIs('admin.layanan.*') ? 'bg-white/15 font-semibold' : 'hover:bg-white/10' }}">Seluruh Layanan</a>
                     <a href="{{ route('admin.prodi.index') }}" class="block rounded-xl px-3 py-2.5 text-sm {{ request()->routeIs('admin.prodi.*') ? 'bg-white/15 font-semibold' : 'hover:bg-white/10' }}">Seluruh Portal Prodi</a>
                     <a href="{{ route('superadmin.groups.order') }}" class="block rounded-xl px-3 py-2.5 text-sm {{ request()->routeIs('superadmin.groups.*') ? 'bg-white/15 font-semibold' : 'hover:bg-white/10' }}">Urutan Grup</a>
+                    <a href="{{ route('superadmin.footer-items.index') }}" class="block rounded-xl px-3 py-2.5 text-sm {{ request()->routeIs('superadmin.footer-items.*') ? 'bg-white/15 font-semibold' : 'hover:bg-white/10' }}">Kelola Footer</a>
                 @else
                     <a href="{{ route('admin.dashboard') }}" class="block rounded-xl px-3 py-2.5 text-sm {{ request()->routeIs('admin.dashboard') ? 'bg-white/15 font-semibold' : 'hover:bg-white/10' }}">Dashboard Admin</a>
                     @if(auth()->user()->group?->kategori?->slug === 'portal-prodi')
