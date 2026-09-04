@@ -1,12 +1,6 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <div class="mb-8 rounded-2xl bg-gradient-to-r from-blue-950 to-blue-700 p-6 text-white shadow-lg sm:p-8">
-        <p class="text-sm font-semibold uppercase tracking-widest text-yellow-300">Portal Akademik</p>
-        <h2 class="mt-2 text-2xl font-bold sm:text-3xl">Tautan Program Studi UNM</h2>
-        <p class="mt-2 max-w-2xl text-sm leading-6 text-blue-100">Akses situs, dokumen, dan layanan program studi melalui daftar tautan resmi berikut.</p>
-    </div>
-
     <div class="grid gap-5 lg:grid-cols-2">
         @forelse($kategori->groups as $group)
             @foreach($group->prodis as $prodi)
