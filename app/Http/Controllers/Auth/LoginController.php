@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\SiteSetting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -14,7 +16,10 @@ class LoginController extends Controller
      */
     public function create()
     {
-        return view('auth.login', ['title' => 'Login']);
+        return view('auth.login', [
+            'title' => 'Login',
+            'customerServiceEmail' => SiteSetting::valueFor('customer_service_email'),
+        ]);
     }
 
     /**
@@ -28,15 +33,15 @@ class LoginController extends Controller
         ]);
 
         // Cek dulu apakah user ada & statusnya aktif
-        $user = \App\Models\User::where('username', $credentials['username'])->first();
+        $user = User::where('username', $credentials['username'])->first();
 
-        if (!$user || !$user->status) {
+        if (! $user || ! $user->status) {
             throw ValidationException::withMessages([
                 'username' => 'Akun tidak ditemukan atau sudah dinonaktifkan.',
             ]);
         }
 
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'username' => 'Username atau password salah.',
             ]);
@@ -45,8 +50,8 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         return match ($user->role) {
-            'admin'    => redirect('/admin/dashboard'),
-            'superadmin'    => redirect('/superadmin/dashboard'),
+            'admin' => redirect('/admin/dashboard'),
+            'superadmin' => redirect('/superadmin/dashboard'),
         };
     }
 

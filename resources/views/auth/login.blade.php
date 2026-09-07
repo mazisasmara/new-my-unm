@@ -306,9 +306,9 @@
 
 
                     {{-- =================================================
-                         REMEMBER + LUPA PASSWORD
+                         REMEMBER
                     ================================================== --}}
-                    <div class="flex items-center justify-between pt-1">
+                    <div class="flex items-center pt-1">
 
                         <label class="flex items-center gap-2
                                       text-sm
@@ -330,19 +330,6 @@
                             </span>
 
                         </label>
-
-
-                        <a
-                            href="#"
-                            class="text-sm
-                                   text-blue-700
-                                   hover:text-blue-900
-                                   hover:underline">
-
-                            lupa password?
-
-                        </a>
-
                     </div>
 
 
@@ -418,8 +405,11 @@
                         </span>
 
 
+                        @if($customerServiceEmail)
                         <a
-                            href="#"
+                            href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to={{ urlencode($customerServiceEmail) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             class="text-blue-700
                                    hover:text-blue-900
                                    hover:underline">
@@ -427,6 +417,9 @@
                             Hubungi Tim Support
 
                         </a>
+                        @else
+                            <span class="text-gray-100">Hubungi Tim Support</span>
+                        @endif
 
                     </div>
 

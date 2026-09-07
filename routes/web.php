@@ -7,6 +7,7 @@ use App\Http\Controllers\LayananController;
 use App\Http\Controllers\ProdiLinkController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\SuperAdmin\FooterItemController;
+use App\Http\Controllers\SuperAdmin\SiteSettingController;
 use App\Http\Controllers\SuperAdmin\SuperAdminController;
 use App\Models\Dokumen;
 use App\Models\Group;
@@ -143,6 +144,13 @@ Route::middleware(['auth', 'role:superadmin'])
 
         Route::resource('footer-items', FooterItemController::class)
             ->except(['show']);
+
+        Route::get('/settings', [SiteSettingController::class, 'edit'])->name(
+            'settings.edit'
+        );
+        Route::put('/settings', [SiteSettingController::class, 'update'])->name(
+            'settings.update'
+        );
     });
 
 /*
