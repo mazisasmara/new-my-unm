@@ -17,7 +17,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-full text-slate-800">
+<body class="flex min-h-screen flex-col text-slate-800">
 
     @php
         $isAdminArea = request()->routeIs('admin.*', 'superadmin.*');
@@ -52,9 +52,9 @@
     {{-- =====================================================
          CONTENT TETAP
     ====================================================== --}}
-    <div class="min-h-screen {{ $isAdminArea ? 'md:pl-72' : '' }}">
+    <div class="flex flex-1 flex-col {{ $isAdminArea ? 'md:pl-72' : '' }}">
 
-        <main class="min-h-[calc(100vh-13rem)]">
+        <main class="flex-1">
 
             <div class="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8">
 
