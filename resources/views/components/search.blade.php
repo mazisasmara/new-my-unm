@@ -6,15 +6,13 @@
             @endif
         @endforeach
 
-        <label for="search" class="mb-2 block text-sm font-semibold text-slate-700">
-            Cari arsip atau layanan
-        </label>
+
         <div class="flex flex-col gap-2 sm:flex-row">
             <div class="relative min-w-0 flex-1">
                 <svg class="pointer-events-none absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="2" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
                 <input type="search" id="search" name="search" value="{{ request('search') }}" placeholder="Masukkan nama layanan atau kata kunci..." class="w-full rounded-xl border border-slate-300 bg-slate-50 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100">
             </div>
-            <button type="submit" class="rounded-xl bg-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-800">Cari</button>
+            <button type="submit" class="rounded-xl bg-yellow-400 px-6 py-3 text-sm font-semibold text-black shadow-sm">Cari</button>
             @if(request()->filled('search'))
                 <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="rounded-xl border border-slate-300 px-4 py-3 text-center text-sm font-semibold text-slate-600 hover:bg-slate-50">Reset</a>
             @endif

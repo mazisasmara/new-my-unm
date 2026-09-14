@@ -26,17 +26,20 @@
     {{-- =====================================================
          BACKGROUND GEDUNG UNM
     ====================================================== --}}
-    <div
-        class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-        style="
-            background-image:
-                linear-gradient(
-                    rgba(255,255,255,0.35),
-                    rgba(255,255,255,0.35)
-                ),
-                url('{{ asset('storage/layanan-logo/BGunm.png') }}');
-        "
-    ></div>
+
+    @if (!request()->routeIs('admin.*', 'superadmin.*'))
+        <div
+            class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+            style="
+                background-image:
+                    linear-gradient(
+                        rgba(255,255,255,0.35),
+                        rgba(255,255,255,0.35)
+                    ),
+                    url('{{ asset('storage/layanan-logo/BGunm.png') }}');
+            "
+        ></div>
+    @endif
 
 
     @if ($isAdminArea)

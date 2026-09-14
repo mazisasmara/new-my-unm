@@ -305,32 +305,7 @@
                     </div>
 
 
-                    {{-- =================================================
-                         REMEMBER
-                    ================================================== --}}
-                    <div class="flex items-center pt-1">
-
-                        <label class="flex items-center gap-2
-                                      text-sm
-                                      text-black">
-
-                            <input
-                                type="checkbox"
-                                name="remember"
-
-                                class="h-5 w-5
-                                       rounded-none
-                                       border-0
-                                       bg-gray-200
-                                       text-yellow-500
-                                       focus:ring-yellow-400">
-
-                            <span>
-                                ingat saya
-                            </span>
-
-                        </label>
-                    </div>
+                    
 
 
                     {{-- =================================================
@@ -405,11 +380,8 @@
                         </span>
 
 
-                        @if($customerServiceEmail)
                         <a
-                            href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to={{ urlencode($customerServiceEmail) }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="#"
                             class="text-blue-700
                                    hover:text-blue-900
                                    hover:underline">
@@ -417,9 +389,6 @@
                             Hubungi Tim Support
 
                         </a>
-                        @else
-                            <span class="text-gray-100">Hubungi Tim Support</span>
-                        @endif
 
                     </div>
 

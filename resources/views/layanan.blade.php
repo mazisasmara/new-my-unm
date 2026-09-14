@@ -15,13 +15,12 @@
                                 <div class="flex h-[100px] w-[100px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200">
                                     <img src="{{ Storage::url($item->logo ?: 'layanan-logo/logo-unm.png') }}" alt="Logo {{ $item->nama_layanan }}" class="size-full object-contain p-2">
                                 </div>
-                                <div class="pt-7 text-center text-white"><div class="text-2xl font-normal leading-none">{{ $item->created_at->format('d') }}</div><div class="mt-1 text-xl leading-none">{{ $item->created_at->translatedFormat('M') }}</div></div>
                             </div>
 
                             <div class="mt-12 text-center">
-                                <h3 class="line-clamp-1 text-3xl font-normal uppercase tracking-tight text-white">{{ $item->nama_layanan }}</h3>
-                                <p class="mt-2 line-clamp-2 px-2 text-sm uppercase leading-tight text-white">{{ $item->creator?->username }}</p>
-                                <p class="mt-1 line-clamp-2 px-4 text-sm leading-tight text-white">{{ $item->deskripsi }}</p>
+                                <h3 class="line-clamp-1 text-2xl font-normal uppercase tracking-tight text-white">{{ $item->nama_layanan }}</h3>
+                                <p class="mt-2 line-clamp-2 px-1 text-sm uppercase leading-tight text-white">{{ $item->creator?->username }}</p>
+                                <p class="mt-1 line-clamp-2 px-3 text-sm leading-tight text-white">{{ $item->deskripsi }}</p>
                             </div>
 
                             <div class="mt-auto pt-5">
