@@ -16,13 +16,6 @@ class ProdiController extends Controller
 
         return view('admin.prodi.index', [
             'title' => 'Manajemen Portal Prodi',
-            'prodis' => Prodi::with(['links', 'group.user', 'creator'])
-                ->when(! auth()->user()->isSuperAdmin(), fn ($query) => $query->where('group_id', auth()->user()->group_id))
-                ->when(request('search'), fn ($query, $search) => $query->where(fn ($nested) => $nested->where('judul', 'like', "%{$search}%")->orWhereHas('links', fn ($links) => $links->where('label', 'like', "%{$search}%"))))
-                ->when(request()->filled('status'), fn ($query) => $query->where('status', request('status')))
-                ->when(auth()->user()->isSuperAdmin() && request()->filled('group'), fn ($query) => $query->where('group_id', request('group')))
-                ->orderBy('urutan')
-                ->get(),
             'groups' => $this->portalGroups(),
         ]);
     }

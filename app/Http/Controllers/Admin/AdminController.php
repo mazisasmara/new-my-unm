@@ -74,18 +74,8 @@ class AdminController extends Controller
 
     public function index()
     {
-        $layanans = Layanan::with(['group.kategori', 'group.user', 'creator'])
-            ->when(! auth()->user()->isSuperAdmin(), fn ($query) => $query->whereBelongsTo(auth()->user()->group))
-            ->filter(request('search'))
-            ->when(request()->filled('status'), fn ($query) => $query->where('status', request('status')))
-            ->when(auth()->user()->isSuperAdmin() && request()->filled('group'), fn ($query) => $query->where('group_id', request('group')))
-            ->when(auth()->user()->isSuperAdmin() && request()->filled('kategori'), fn ($query) => $query->whereHas('group', fn ($group) => $group->where('kategori_id', request('kategori'))))
-            ->orderBy('urutan')
-            ->get();
-
         return view('admin.layanan.index', [
             'title' => 'Manajemen Layanan',
-            'layanans' => $layanans,
             'groups' => $this->serviceGroups(),
             'kategoris' => auth()->user()->isSuperAdmin()
                 ? Kategori::where('slug', '!=', 'portal-prodi')->orderBy('urutan')->get()

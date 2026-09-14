@@ -32,24 +32,7 @@ class LayananController extends Controller
                 ->firstOrFail();
         }
 
-        $kategori = Kategori::where('slug', $slug)
-            ->with([
-                'groups' => function ($query) {
-                    $query->where('status', true)->orderBy('urutan');
-                },
-
-                'groups.layanans' => function ($query) use ($filteredUser) {
-                    $query
-                        ->where('status', true)
-                        ->filter(request('search'))
-                        ->when($filteredUser, fn ($q) => $q->byUser($filteredUser->id))
-                        ->orderBy('urutan');
-                },
-                'groups.prodis' => function ($query) {
-                    $query->where('status', true)->with('links')->orderBy('urutan');
-                },
-            ])
-            ->firstOrFail();
+        $kategori = Kategori::where('slug', $slug)->firstOrFail();
         $views = [
             'portal-prodi' => 'prodi',
         ];
