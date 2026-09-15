@@ -39,6 +39,8 @@
                     url('{{ asset('storage/layanan-logo/BGunm.png') }}');
             "
         ></div>
+
+        <div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat bg-black opacity-40"></div>
     @endif
 
 
