@@ -32,15 +32,11 @@
             class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
             style="
                 background-image:
-                    linear-gradient(
-                        rgba(255,255,255,0.35),
-                        rgba(255,255,255,0.35)
-                    ),
                     url('{{ asset('storage/layanan-logo/BGunm.png') }}');
             "
         ></div>
 
-        <div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat bg-black opacity-40"></div>
+        <div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat bg-black opacity-45"></div>
     @endif
 
 

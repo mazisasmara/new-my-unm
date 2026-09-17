@@ -57,9 +57,7 @@
                             <p class="px-4 py-4 text-sm text-slate-500">Tidak ada hasil yang cocok.</p>
                         @endforelse
 
-                        <a href="{{ $formAction }}?{{ http_build_query(array_merge($preservedQuery, ['search' => $query])) }}" class="mt-1 flex items-center justify-between border-t border-slate-100 px-4 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-50">
-                            <span class="truncate">Lihat semua hasil untuk “{{ $query }}”</span><span aria-hidden="true">→</span>
-                        </a>
+                        
                     </div>
                 @endif
             </div>

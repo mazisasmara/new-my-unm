@@ -3,7 +3,7 @@
     <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         <div class="flex flex-col gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div><h2 class="font-bold text-slate-800">Daftar Layanan</h2><p class="text-sm text-slate-500">{{ auth()->user()->isSuperAdmin() ? 'Kelola layanan dari seluruh unit dan lihat penanggung jawabnya.' : 'Kelola layanan milik '.auth()->user()->group->nama_group.'.' }}</p></div>
-            <a href="{{ route('admin.layanan.create') }}" class="rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-700">+ Tambah Layanan</a>
+            <a href="{{ route('admin.layanan.create') }}" class="rounded-md bg-yellow-300 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-yellow-400">+ Tambah Layanan</a>
         </div>
         @if(session('success'))<div class="m-5 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700">{{ session('success') }}</div>@endif
         <form method="GET" class="grid gap-3 border-b border-slate-200 p-4 sm:grid-cols-2 lg:grid-cols-5">

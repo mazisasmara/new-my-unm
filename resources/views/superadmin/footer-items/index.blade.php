@@ -6,7 +6,7 @@
             <h2 class="text-xl font-bold text-slate-800">Kelola Footer</h2>
             <p class="text-sm text-slate-500">Kelola informasi kontak dan tautan media sosial pada footer aplikasi.</p>
         </div>
-        <a href="{{ route('superadmin.footer-items.create') }}" class="rounded-md bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-700">+ Tambah Item</a>
+        <a href="{{ route('superadmin.footer-items.create') }}" class="rounded-md bg-yellow-300 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-yellow-400">+ Tambah Item</a>
     </div>
 
     @if(session('success'))

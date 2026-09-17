@@ -130,8 +130,8 @@
                             type="button"
                             onclick="saveOrder()"
                             class="w-full px-4 py-3 rounded-lg
-                                   bg-blue-600 text-white font-medium
-                                   hover:bg-blue-700 transition"
+                                   bg-yellow-300 text-white font-medium
+                                   hover:bg-yellow-400 transition"
                         >
                             Simpan Urutan
                         </button>

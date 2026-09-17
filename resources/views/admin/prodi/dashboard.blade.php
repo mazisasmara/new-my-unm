@@ -2,7 +2,7 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <div class="mb-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div><h2 class="text-xl font-bold">Ringkasan Portal Prodi</h2><p class="text-sm text-slate-500">Statistik tautan publik milik {{ auth()->user()->group->nama_group }}.</p></div>
-        <a href="{{ route('admin.prodi.create') }}" class="rounded-xl bg-blue-700 px-4 py-2.5 text-center text-sm font-semibold text-white">+ Tambah Prodi</a>
+        <a href="{{ route('admin.prodi.create') }}" class="rounded-xl bg-yellow-400 px-4 py-2.5 text-center text-sm font-semibold text-white">+ Tambah Prodi</a>
     </div>
 
     <div class="mb-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
