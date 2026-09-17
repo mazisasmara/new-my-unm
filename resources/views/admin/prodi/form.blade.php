@@ -27,7 +27,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('admin.prodi.index') }}" class="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold">Batal</a><button class="rounded-xl bg-yellow-400 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-800">Simpan</button></div>
+            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('admin.prodi.index') }}" class="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold">Batal</a><button class="app-button-primary text-sm">Simpan</button></div>
         </form>
     </div>
     <template id="link-template"><div class="link-row grid gap-2 rounded-xl bg-slate-50 p-3 sm:grid-cols-[1fr_1.5fr_auto]"><input data-name="label" required class="rounded-lg border border-slate-300 px-3 py-2" placeholder="Nama tautan"><input data-name="url" type="url" required class="rounded-lg border border-slate-300 px-3 py-2" placeholder="https://..."><button type="button" onclick="removeLink(this)" class="rounded-lg px-3 py-2 text-red-600 hover:bg-red-50">Hapus</button></div></template>

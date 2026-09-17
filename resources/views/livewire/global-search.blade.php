@@ -61,7 +61,7 @@
                     </div>
                 @endif
             </div>
-            <button type="submit" class="rounded-xl bg-yellow-400 px-6 py-3 text-sm font-semibold text-black shadow-sm">Cari</button>
+            <button type="submit" class="app-button-primary px-6 py-3 text-sm">Cari</button>
             @if($query !== '')
                 <a href="{{ $formAction }}{{ $preservedQuery ? '?'.http_build_query($preservedQuery) : '' }}" class="rounded-xl border border-slate-300 px-4 py-3 text-center text-sm font-semibold text-slate-600 hover:bg-slate-50">Reset</a>
             @endif

@@ -1,4 +1,4 @@
-<footer class="w-full text-white" style="background-color: #ff7900;">
+<footer class="w-full bg-brand text-white">
     <div class="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-4 md:flex-row md:items-center md:gap-4 lg:px-8">
         <div class="flex justify-center md:w-1/3 md:justify-start">
             <img src="{{ asset('storage/layanan-logo/logo-put.png') }}" alt="Universitas Negeri Makassar" class="h-24 w-44 scale-150 object-contain sm:h-28 sm:scale-150">

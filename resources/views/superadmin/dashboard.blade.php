@@ -2,7 +2,7 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div><h2 class="text-xl font-bold text-slate-800">Dashboard Superadmin</h2><p class="text-sm text-slate-500">Pantau ringkasan layanan dan aktivitas website.</p></div>
-        <a href="{{ route('superadmin.admins.index') }}" class="rounded-md bg-yellow-300 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-yellow-400">Kelola Akun Admin</a>
+        <a href="{{ route('superadmin.admins.index') }}" class="app-button-primary text-sm">Kelola Akun Admin</a>
     </div>
     <div class="mb-7 grid grid-cols-2 gap-4 lg:grid-cols-5">
         @foreach([['Total Admin', $stats['total_admin'], 'text-slate-800'], ['Total Layanan', $stats['total_layanan'], 'text-blue-700'], ['Layanan Aktif', $stats['layanan_aktif'], 'text-green-600'], ['Layanan Nonaktif', $stats['layanan_nonaktif'], 'text-slate-500'], ['Kunjungan Website', $websiteTotalVisitors, 'text-violet-700']] as [$label, $value, $color])

@@ -10,395 +10,60 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-gray-200">
-
-    <div class="min-h-screen flex flex-col lg:flex-row">
-
-
-        {{-- =====================================================
-             PANEL KIRI
-        ====================================================== --}}
-        <div class="relative w-full lg:w-1/2 min-h-screen
-                    bg-gradient-to-b from-yellow-500
-                    via-orange-500
-                    to-orange-700">
-
-            {{-- =================================================
-                 LOGO MYUNM
-            ================================================== --}}
-            <div class="absolute top-7 left-7
-                        lg:top-8 lg:left-7">
-
-                <div class="flex items-center gap-4">
-
-                    <img
-                        src="{{ asset('storage/layanan-logo/logo-unm.png') }}"
-                        alt="Logo MyUNM"
-                        class="w-20 h-20 object-contain"
-                    >
-
-                    <div>
-
-                        <h2 class="text-2xl font-medium text-black">
-                            MyUNM
-                        </h2>
-
-                        <p class="text-sm font-medium text-blue-700">
-                            Admin Super
-                        </p>
-
-                    </div>
-
+<body class="min-h-screen bg-canvas text-ink">
+    <main class="grid min-h-screen lg:grid-cols-2">
+        <section class="relative overflow-hidden bg-brand px-6 py-8 text-white sm:px-10 lg:flex lg:min-h-screen lg:flex-col lg:justify-between lg:px-14 lg:py-12">
+            <div class="flex items-center gap-3">
+                <img src="{{ asset('storage/layanan-logo/logo-unm.png') }}" alt="Logo Universitas Negeri Makassar" class="size-14 object-contain sm:size-16">
+                <div>
+                    <p class="text-xl font-bold text-white">MyUNM</p>
+                    <p class="text-sm font-medium text-white/85">Portal administrasi</p>
                 </div>
-
-                {{-- Garis --}}
-                <div class="mt-5 h-[2px] w-56 bg-white"></div>
-
             </div>
 
-
-            {{-- =================================================
-                 KONTEN UTAMA KIRI
-            ================================================== --}}
-            <div class="absolute
-                        top-1/2
-                        left-1/2
-                        -translate-x-1/2
-                        -translate-y-1/2
-                        w-[82%]
-                        max-w-xl">
-
-                {{-- Logo UNM --}}
-                <div class="flex justify-center">
-
-                    <img
-                        src="{{ asset('storage/layanan-logo/logo-myunm.png') }}"
-                        alt="Universitas Negeri Makassar"
-                        class="w-[380px] max-w-full h-auto object-contain"
-                    >
-
-                </div>
-
-
-                {{-- Garis bawah logo --}}
-                <div class="mt-3 h-[2px] w-full bg-white"></div>
-
-
-                {{-- Selamat datang --}}
-                <h1 class="mt-4
-                           text-5xl
-                           font-normal
-                           leading-tight
-                           text-black">
-
-                    Selamat datang<br>
-                    kembali!
-
-                </h1>
-
-
-                {{-- Deskripsi --}}
-                <div class="mt-3 flex items-start gap-2">
-
-                    <span class="text-2xl leading-none text-red-500">
-                        •
-                    </span>
-
-                    <p class="text-xl leading-tight text-white">
-
-                        Silahkan login untuk mengakses<br>
-                        dashboard my.unm.ac.id
-
-                    </p>
-
-                </div>
-
+            <div class="relative z-10 mt-12 max-w-xl lg:my-auto lg:py-16">
+                <img src="{{ asset('storage/layanan-logo/logo-myunm.png') }}" alt="MyUNM" class="h-auto w-64 max-w-full object-contain brightness-0 invert sm:w-80">
+                <div class="mt-6 h-1 w-16 rounded-full bg-action"></div>
+                <h1 class="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl">Selamat datang kembali!</h1>
+                <p class="mt-4 max-w-md text-base leading-7 text-white/90 sm:text-lg">Masuk untuk mengelola layanan dan informasi di dashboard MyUNM.</p>
             </div>
 
-        </div>
+            <p class="mt-10 hidden text-sm text-white/80 lg:block">Universitas Negeri Makassar</p>
+            <div class="pointer-events-none absolute -bottom-24 -right-20 size-72 rounded-full bg-action/20"></div>
+        </section>
 
-
-        {{-- =====================================================
-             PANEL KANAN
-        ====================================================== --}}
-        <div class="w-full lg:w-1/2 min-h-screen
-                    flex items-center justify-center
-                    bg-gray-200
-                    px-6 py-10">
-
-            <section class="w-full max-w-xl
-                            rounded-2xl
-                            bg-gradient-to-b
-                            from-yellow-700
-                            via-orange-600
-                            to-orange-500
-                            px-8
-                            py-12
-                            lg:px-16
-                            lg:py-16">
-
-                {{-- =================================================
-                     ICON LOCK
-                ================================================== --}}
-                <div class="flex justify-center mb-12">
-
-                    <div class="flex items-center justify-center
-                                w-20 h-20
-                                rounded-full
-                                border-2 border-blue-300
-                                bg-blue-100
-                                shadow-md">
-
-                        <svg
-                            class="w-12 h-12 text-blue-500"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24">
-
-                            <path
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M7 10V7a5 5 0 0 1 10 0v3
-                                   M6 10h12v10H6V10Z
-                                   M12 14v2" />
-
-                        </svg>
-
-                    </div>
-
+        <section class="flex items-center justify-center px-5 py-10 sm:px-10 lg:px-16">
+            <div class="w-full max-w-md">
+                <div class="mb-8">
+                    <p class="font-semibold text-brand">Area pengelola</p>
+                    <h2 class="mt-2 text-3xl font-bold text-slate-950">Masuk ke akun Anda</h2>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">Gunakan username dan password admin yang telah terdaftar.</p>
                 </div>
 
-
-                {{-- =================================================
-                     INFO ADMIN SUPER
-                ================================================== --}}
-                <div class="mb-11
-                            rounded-md
-                            bg-gray-200
-                            px-5
-                            py-4
-                            text-black">
-
-                    <div class="flex items-start gap-3">
-
-                        <span class="text-xl">
-                            •
-                        </span>
-
-                        <div>
-
-                            <h3 class="text-xl font-normal">
-                                Admin super
-                            </h3>
-
-                            <p class="mt-3
-                                      text-base
-                                      leading-tight">
-
-                                Akun dengan akses penuh untuk mengelola
-                                sistem, pengguna, dan semua fitur
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- =================================================
-                     ERROR LOGIN
-                ================================================== --}}
                 @if($errors->any())
-
-                    <div class="mb-5
-                                rounded-md
-                                border border-red-300
-                                bg-red-100
-                                px-4 py-3
-                                text-sm
-                                text-red-700">
-
-                        {{ $errors->first() }}
-
-                    </div>
-
+                    <div role="alert" class="mb-5 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">{{ $errors->first() }}</div>
                 @endif
 
-
-                {{-- =================================================
-                     FORM LOGIN
-                ================================================== --}}
-                <form
-                    method="POST"
-                    action="{{ url('/login') }}"
-                    class="space-y-4">
-
+                <form method="POST" action="{{ url('/login') }}" class="space-y-5">
                     @csrf
-
-
-                    {{-- USERNAME --}}
                     <div>
-
-                        <label
-                            for="username"
-                            class="mb-1 block text-base text-black">
-
-                            Username
-
-                        </label>
-
-                        <input
-                            id="username"
-                            type="text"
-                            name="username"
-                            value="{{ old('username') }}"
-                            required
-                            autofocus
-                            autocomplete="username"
-
-                            class="h-12
-                                   w-full
-                                   rounded-xl
-                                   border-0
-                                   bg-gray-200
-                                   px-4
-                                   text-black
-                                   outline-none
-                                   focus:ring-2
-                                   focus:ring-yellow-400">
-
+                        <label for="username" class="mb-2 block text-sm font-semibold text-slate-900">Username</label>
+                        <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus autocomplete="username" class="app-input" placeholder="Masukkan username">
                     </div>
-
-
-                    {{-- PASSWORD --}}
                     <div>
-
-                        <label
-                            for="password"
-                            class="mb-1 block text-base text-black">
-
-                            Password
-
-                        </label>
-
-                        <input
-                            id="password"
-                            type="password"
-                            name="password"
-                            required
-                            autocomplete="current-password"
-
-                            class="h-12
-                                   w-full
-                                   rounded-xl
-                                   border-0
-                                   bg-gray-200
-                                   px-4
-                                   text-black
-                                   outline-none
-                                   focus:ring-2
-                                   focus:ring-yellow-400">
-
+                        <label for="password" class="mb-2 block text-sm font-semibold text-slate-900">Password</label>
+                        <input id="password" type="password" name="password" required autocomplete="current-password" class="app-input" placeholder="Masukkan password">
                     </div>
-
-
-                    
-
-
-                    {{-- =================================================
-                         TOMBOL LOGIN
-                    ================================================== --}}
-                    <div class="flex justify-center pt-1">
-
-                        <button
-                            type="submit"
-
-                            class="h-10
-                                   w-48
-                                   rounded-xl
-                                   bg-yellow-400
-                                   text-lg
-                                   font-normal
-                                   text-black
-                                   shadow-sm
-                                   transition
-                                   duration-200
-                                   hover:bg-yellow-300
-                                   active:bg-yellow-500">
-
-                            login
-
-                        </button>
-
-                    </div>
-
+                    <button type="submit" class="app-button-primary mt-2 w-full">Masuk</button>
                 </form>
 
-
-                {{-- =================================================
-                     SUPPORT
-                ================================================== --}}
-                <div class="mt-20">
-
-                    <div class="mb-5 h-[2px] bg-white"></div>
-
-                    <div class="flex
-                                items-center
-                                justify-center
-                                gap-2
-                                text-lg
-                                text-white">
-
-                        {{-- Icon --}}
-                        <svg
-                            class="h-6 w-6 text-black"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24">
-
-                            <circle
-                                cx="12"
-                                cy="12"
-                                r="9"
-                                stroke-width="1.8" />
-
-                            <path
-                                stroke-width="1.8"
-                                stroke-linecap="round"
-                                d="M8 13a4 4 0 0 0 8 0
-                                   M9 10h.01
-                                   M15 10h.01" />
-
-                        </svg>
-
-
-                        <span>
-                            Butuh bantuan?
-                        </span>
-
-
-                        <a
-                            href="#"
-                            class="text-blue-700
-                                   hover:text-blue-900
-                                   hover:underline">
-
-                            Hubungi Tim Support
-
-                        </a>
-
-                    </div>
-
+                <div class="mt-8 border-t border-slate-200 pt-6 text-center text-sm text-slate-600">
+                    <span>Butuh bantuan?</span>
+                    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to={{ urlencode($customerServiceEmail) }}" target="_blank" rel="noopener noreferrer" class="font-semibold text-brand underline-offset-4 hover:underline">Hubungi Tim Support</a>
                 </div>
-
-            </section>
-
-        </div>
-
-    </div>
+            </div>
+        </section>
+    </main>
 
 </body>
 

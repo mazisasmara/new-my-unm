@@ -27,7 +27,7 @@
             </div>
 
             <div class="flex justify-end">
-                <button class="rounded-md bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700">Simpan Pengaturan</button>
+                <button class="app-button-primary text-sm">Simpan Pengaturan</button>
             </div>
         </form>
     </section>

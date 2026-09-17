@@ -8,5 +8,62 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
-    
+
+    /* Palet aplikasi: ubah nilai berikut untuk mengganti warna secara global. */
+    --color-brand: #ff7900;
+    --color-brand-dark: #c95f00;
+    --color-action: #fde047; /* Tailwind yellow-300 */
+    --color-action-hover: #facc15; /* Tailwind yellow-400 */
+    --color-ink: #111827;
+    --color-canvas: #f8fafc;
+}
+
+@layer base {
+    :focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--color-action-hover) 75%, white);
+        outline-offset: 2px;
+    }
+}
+
+@layer components {
+    .app-button-primary {
+        @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold shadow-sm transition-colors;
+        background-color: var(--color-action);
+        color: var(--color-ink);
+    }
+
+    .app-button-primary:hover {
+        background-color: var(--color-action-hover);
+    }
+
+    .app-sidebar {
+        background-color: var(--color-brand);
+        color: white;
+    }
+
+    .app-sidebar-link {
+        @apply block rounded-xl px-3 py-2.5 text-sm font-medium transition-colors;
+        color: white;
+    }
+
+    .app-sidebar-link:hover {
+        background-color: var(--color-action);
+        color: var(--color-ink);
+    }
+
+    .app-sidebar-link-active {
+        background-color: white;
+        color: var(--color-ink);
+        @apply font-semibold shadow-sm;
+    }
+
+    .app-input {
+        @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-950 shadow-sm transition;
+    }
+
+    .app-input:focus {
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 22%, transparent);
+        outline: none;
+    }
 }

@@ -2,7 +2,7 @@
     <x-slot:title>{{ auth()->user()->isSuperAdmin() ? 'Seluruh Portal Prodi' : $title }}</x-slot:title>
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div><h2 class="text-xl font-bold text-slate-900">Daftar Portal Prodi</h2><p class="text-sm text-slate-500">{{ auth()->user()->isSuperAdmin() ? 'Kelola seluruh portal prodi beserta unit pemiliknya.' : 'Kelola judul dan kumpulan tautan untuk '.auth()->user()->group->nama_group.'.' }}</p></div>
-        <a href="{{ route('admin.prodi.create') }}" class="rounded-xl bg-yellow-400 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-800">+ Tambah Prodi</a>
+        <a href="{{ route('admin.prodi.create') }}" class="app-button-primary text-sm">+ Tambah Prodi</a>
     </div>
     @if(session('success'))<div class="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">{{ session('success') }}</div>@endif
     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">

@@ -86,7 +86,7 @@
                 </label>
             </div>
 
-            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('admin.layanan.index') }}" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Batal</a><button type="submit" class="rounded-md bg-yellow-300 px-4 py-2 text-sm font-semibold text-white">Simpan Perubahan</button></div>
+            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('admin.layanan.index') }}" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Batal</a><button type="submit" class="app-button-primary text-sm">Simpan Perubahan</button></div>
         </form>
     </div>
 </x-layout>

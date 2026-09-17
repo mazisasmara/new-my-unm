@@ -72,6 +72,7 @@
         <script>
             const sidebar = document.getElementById('app-sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
 
             function toggleSidebar(forceClose = false) {
                 if (!sidebar || !backdrop) return;
@@ -79,7 +80,12 @@
                 const opening = !forceClose && sidebar.classList.contains('-translate-x-full');
                 sidebar.classList.toggle('-translate-x-full', !opening);
                 backdrop.classList.toggle('hidden', !opening);
+                sidebarToggle?.setAttribute('aria-expanded', opening ? 'true' : 'false');
             }
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') toggleSidebar(true);
+            });
         </script>
     @endif
 </body>

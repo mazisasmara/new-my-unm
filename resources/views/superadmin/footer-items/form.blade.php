@@ -29,7 +29,7 @@
                 <div><label class="mb-1.5 block text-sm font-semibold text-slate-700">Status</label><select name="status" required class="w-full rounded-md border border-slate-300 px-3 py-2.5"><option value="1" @selected((string) old('status', (int) ($footerItem->status ?? true)) === '1')>Aktif</option><option value="0" @selected((string) old('status', (int) ($footerItem->status ?? true)) === '0')>Nonaktif</option></select></div>
             </div>
 
-            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('superadmin.footer-items.index') }}" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Batal</a><button class="rounded-md bg-yellow-300 px-4 py-2 text-sm font-semibold text-white hover:bg-yellow-400">Simpan</button></div>
+            <div class="flex justify-end gap-3 border-t border-slate-100 pt-5"><a href="{{ route('superadmin.footer-items.index') }}" class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold">Batal</a><button class="app-button-primary text-sm">Simpan</button></div>
         </form>
     </div>
 

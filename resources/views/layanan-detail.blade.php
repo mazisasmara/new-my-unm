@@ -27,7 +27,7 @@
                 </div>
                 <h2 class="mt-4 text-2xl font-bold text-slate-900">{{ $layanan->nama_layanan }}</h2>
                 <h3 class="mt-7 text-2xl font-semibold text-slate-950">Detail</h3>
-                <span class="mt-2 h-1 w-16 rounded-full bg-orange-500"></span>
+                <span class="mt-2 h-1 w-16 rounded-full bg-brand"></span>
             </div>
 
             <dl class="mx-auto mt-8 grid max-w-xl gap-5 text-sm sm:grid-cols-2">
@@ -39,7 +39,7 @@
             </dl>
 
             <div class="mt-8 flex justify-end">
-                <a href="{{ route('layanan.visit', $layanan) }}" target="_blank" rel="noopener noreferrer" class="rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-600">Lihat web nya</a>
+                <a href="{{ route('layanan.visit', $layanan) }}" target="_blank" rel="noopener noreferrer" class="app-button-primary text-sm">Lihat web nya</a>
             </div>
         </section>
     </div>

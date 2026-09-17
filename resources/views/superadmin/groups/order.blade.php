@@ -129,9 +129,7 @@
                         <button
                             type="button"
                             onclick="saveOrder()"
-                            class="w-full px-4 py-3 rounded-lg
-                                   bg-yellow-300 text-white font-medium
-                                   hover:bg-yellow-400 transition"
+                            class="app-button-primary w-full px-4 py-3"
                         >
                             Simpan Urutan
                         </button>
