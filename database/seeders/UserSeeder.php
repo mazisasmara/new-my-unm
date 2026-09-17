@@ -22,7 +22,12 @@ class UserSeeder extends Seeder
             'fakultas-mipa' => ['admin_fmipa', 'fmipa@unm.test'],
             'kemahasiswaan' => ['admin_mahasiswa', 'mahasiswa@unm.test'],
             'perpustakaan-unm' => ['admin_perpustakaan', 'perpustakaan@unm.test'],
-            'portal-program-studi' => ['admin_prodi', 'prodi@unm.test'],
+            'portal-prodi-teknik' => ['admin_portal_ft', 'portal.ft@unm.test'],
+            'portal-prodi-ekonomi' => ['admin_portal_fe', 'portal.fe@unm.test'],
+            'portal-prodi-mipa' => ['admin_portal_fmipa', 'portal.fmipa@unm.test'],
+            'portal-prodi-fip' => ['admin_portal_fip', 'portal.fip@unm.test'],
+            'portal-prodi-bahasa' => ['admin_portal_fbs', 'portal.fbs@unm.test'],
+            'portal-prodi-sosial' => ['admin_portal_fis', 'portal.fis@unm.test'],
         ];
 
         foreach ($admins as $groupSlug => [$username, $email]) {

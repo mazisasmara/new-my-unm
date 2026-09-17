@@ -14,7 +14,6 @@
 
                             <div class="mt-12 text-center">
                                 <h3 class="line-clamp-1 text-2xl font-normal uppercase tracking-tight text-white">{{ $item->nama_layanan }}</h3>
-                                <p class="mt-2 line-clamp-2 px-1 text-sm uppercase leading-tight text-white">{{ $item->creator?->username }}</p>
                                 <p class="mt-1 line-clamp-2 px-3 text-sm leading-tight text-white">{{ $item->deskripsi }}</p>
                             </div>
 
@@ -34,7 +33,7 @@
     <div class="grid gap-5 lg:grid-cols-2">
         @forelse($kategori->groups as $group)
             @foreach($group->prodis as $prodi)
-                <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <section id="prodi-{{ $prodi->id }}" class="scroll-mt-36 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                     <div class="border-b border-slate-100 bg-slate-50 px-5 py-4">
                         <p class="text-xs font-semibold uppercase tracking-wider text-blue-700">{{ $group->nama_group }}</p>
                         <h3 class="mt-1 text-lg font-bold text-slate-900">{{ $prodi->judul }}</h3>

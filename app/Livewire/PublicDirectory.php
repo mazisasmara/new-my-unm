@@ -42,7 +42,12 @@ class PublicDirectory extends Component
                         ->when($filteredUser, fn ($q) => $q->byUser($filteredUser->id))
                         ->with('creator');
                 } else {
-                    $query->with('links');
+                    $query->when($this->search, function ($query, $search) {
+                        $query->where(function ($query) use ($search) {
+                            $query->where('judul', 'like', "%{$search}%")
+                                ->orWhereHas('links', fn ($links) => $links->where('label', 'like', "%{$search}%"));
+                        });
+                    })->with('links');
                 }
             }])->firstOrFail();
 
