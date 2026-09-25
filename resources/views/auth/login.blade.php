@@ -55,12 +55,9 @@
                         <input id="password" type="password" name="password" required autocomplete="current-password" class="app-input" placeholder="Masukkan password">
                     </div>
                     <button type="submit" class="app-button-primary mt-2 w-full">Masuk</button>
+                    <a class="app-button-primary mt-2 w-full" href="{{ url('/') }}">Kembali</a>
                 </form>
 
-                <div class="mt-8 border-t border-slate-200 pt-6 text-center text-sm text-slate-600">
-                    <span>Butuh bantuan?</span>
-                    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to={{ urlencode($customerServiceEmail) }}" target="_blank" rel="noopener noreferrer" class="font-semibold text-brand underline-offset-4 hover:underline">Hubungi Tim Support</a>
-                </div>
             </div>
         </section>
     </main>
