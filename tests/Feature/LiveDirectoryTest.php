@@ -32,6 +32,38 @@ class LiveDirectoryTest extends TestCase
         $browserA->call('$refresh')->assertDontSee('Layanan Baru');
     }
 
+    public function test_home_only_shows_services_owned_by_the_university_category(): void
+    {
+        $university = Kategori::forceCreate(['nama_kategori' => 'Universitas', 'slug' => 'universitas', 'urutan' => 1]);
+        $faculties = Kategori::forceCreate(['nama_kategori' => 'Fakultas', 'slug' => 'fakultas', 'urutan' => 2]);
+        $universityGroup = Group::create(['kategori_id' => $university->id, 'nama_group' => 'Universitas Negeri Makassar', 'slug' => 'universitas-negeri-makassar', 'status' => true]);
+        $facultyGroup = Group::create(['kategori_id' => $faculties->id, 'nama_group' => 'Fakultas Teknik', 'slug' => 'fakultas-teknik', 'status' => true]);
+        Layanan::create(['group_id' => $universityGroup->id, 'nama_layanan' => 'Sistem Akademik', 'deskripsi' => 'Layanan akademik resmi.', 'status' => true]);
+        Layanan::create(['group_id' => $facultyGroup->id, 'nama_layanan' => 'Layanan Fakultas Teknik', 'status' => true]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Cari semua layanan UNM')
+            ->assertSee('Sistem Akademik')
+            ->assertDontSee('Jelajahi berdasarkan')
+            ->assertDontSee('Layanan Fakultas Teknik');
+    }
+
+    public function test_public_directory_can_be_filtered_to_a_database_faculty_group(): void
+    {
+        $category = Kategori::forceCreate(['nama_kategori' => 'Fakultas', 'slug' => 'fakultas', 'urutan' => 1]);
+        $engineering = Group::create(['kategori_id' => $category->id, 'nama_group' => 'Fakultas Teknik', 'slug' => 'fakultas-teknik', 'status' => true]);
+        $science = Group::create(['kategori_id' => $category->id, 'nama_group' => 'Fakultas MIPA', 'slug' => 'fakultas-mipa', 'status' => true]);
+        Layanan::create(['group_id' => $engineering->id, 'nama_layanan' => 'Layanan Teknik', 'status' => true]);
+        Layanan::create(['group_id' => $science->id, 'nama_layanan' => 'Layanan Sains', 'status' => true]);
+
+        Livewire::test(PublicDirectory::class, [
+            'kategoriId' => $category->id,
+            'kind' => 'layanan',
+            'group' => 'fakultas-teknik',
+        ])->assertSee('Layanan Teknik')->assertDontSee('Layanan Sains');
+    }
+
     public function test_admin_component_remains_scoped_to_own_group_after_refresh(): void
     {
         $category = Kategori::forceCreate(['nama_kategori' => 'Universitas', 'slug' => 'universitas', 'urutan' => 1]);

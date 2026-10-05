@@ -22,16 +22,20 @@ class GlobalSearch extends Component
 
     public ?string $ownerUsername = null;
 
+    public string $variant = 'default';
+
     public function mount(
         string $formAction,
         array $preservedQuery = [],
         ?string $ownerUsername = null,
         ?string $initialQuery = null,
+        string $variant = 'default',
     ): void {
         $this->formAction = $formAction;
         $this->preservedQuery = $preservedQuery;
         $this->ownerUsername = $ownerUsername;
         $this->query = $initialQuery ?? '';
+        $this->variant = in_array($variant, ['default', 'hero'], true) ? $variant : 'default';
     }
 
     #[Computed]

@@ -1,5 +1,9 @@
 <div
-    class="mb-7 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+    @class([
+        'relative',
+        'mb-7 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5' => $variant === 'default',
+        'rounded-[22px] border border-slate-200 bg-white p-2 shadow-[0_16px_45px_rgba(15,27,61,0.12)]' => $variant === 'hero',
+    ])
     x-data="{ open: false, active: -1 }"
     @click.outside="open = false; active = -1"
     @keydown.escape.window="open = false; active = -1"
@@ -13,7 +17,7 @@
 
         <div class="flex flex-col gap-2 sm:flex-row">
             <div class="relative min-w-0 flex-1">
-                <svg class="pointer-events-none absolute left-3.5 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="2" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+                <svg class="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-width="2" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
                 <input
                     type="search"
                     id="search"
@@ -24,12 +28,16 @@
                     @keydown.arrow-down.prevent="if ({{ count($this->suggestions) }}) { open = true; active = Math.min(active + 1, {{ max(count($this->suggestions) - 1, 0) }}) }"
                     @keydown.arrow-up.prevent="active = Math.max(active - 1, 0)"
                     @keydown.enter="if (open && active >= 0) { $event.preventDefault(); window.location.href = $refs['suggestion' + active].href }"
-                    placeholder="Masukkan nama layanan atau kata kunci..."
+                    placeholder="{{ $variant === 'hero' ? 'Cari layanan, fakultas, prodi, atau informasi...' : 'Masukkan nama layanan atau kata kunci...' }}"
                     autocomplete="off"
                     role="combobox"
                     :aria-expanded="open && {{ trim($query) !== '' ? 'true' : 'false' }}"
                     aria-controls="global-search-suggestions"
-                    class="w-full rounded-xl border border-slate-300 bg-slate-50 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                    @class([
+                        'w-full border bg-slate-50 pl-12 pr-4 text-sm outline-none transition focus:bg-white',
+                        'rounded-xl border-slate-300 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-100' => $variant === 'default',
+                        'h-14 rounded-2xl border-transparent py-4 text-base focus:border-[#FFC400] focus:ring-2 focus:ring-yellow-100' => $variant === 'hero',
+                    ])
                 >
 
                 @if(trim($query) !== '')
@@ -61,7 +69,7 @@
                     </div>
                 @endif
             </div>
-            <button type="submit" class="app-button-primary px-6 py-3 text-sm">Cari</button>
+            <button type="submit" @class(['inline-flex items-center justify-center font-semibold transition', 'app-button-primary px-6 py-3 text-sm' => $variant === 'default', 'h-14 rounded-2xl bg-[#FFC400] px-7 text-sm text-[#0F1B3D] hover:bg-yellow-300' => $variant === 'hero'])>Cari</button>
             @if($query !== '')
                 <a href="{{ $formAction }}{{ $preservedQuery ? '?'.http_build_query($preservedQuery) : '' }}" class="rounded-xl border border-slate-300 px-4 py-3 text-center text-sm font-semibold text-slate-600 hover:bg-slate-50">Reset</a>
             @endif

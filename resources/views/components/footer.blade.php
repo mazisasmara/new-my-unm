@@ -1,12 +1,12 @@
-<footer class="w-full bg-brand text-white">
-    <div class="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-4 md:flex-row md:items-center md:gap-4 lg:px-8">
+<footer class="w-full bg-[#0F1B3D] text-white">
+    <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10 md:flex-row md:items-center md:gap-6 lg:px-8">
         <div class="flex justify-center md:w-1/3 md:justify-start">
             <img src="{{ asset('storage/layanan-logo/logo-put.png') }}" alt="Universitas Negeri Makassar" class="h-24 w-44 scale-150 object-contain sm:h-28 sm:scale-150">
         </div>
 
-        <section class="mx-auto text-sm text-slate-950 md:w-1/3">
+        <section class="mx-auto text-sm text-slate-300 md:w-1/3">
             <div class="mb-2 flex items-center gap-2 text-lg font-medium text-white">
-                <svg class="size-5 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.75 9.75 0 01-4.255-.972L3 20l1.315-3.945A7.67 7.67 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                <svg class="size-5 text-[#FFC400]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.75 9.75 0 01-4.255-.972L3 20l1.315-3.945A7.67 7.67 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 <h2>Hubungi kami :</h2>
             </div>
             <ul class="space-y-1">
@@ -30,7 +30,7 @@
         <section class="mx-auto w-fit md:ml-auto md:mr-0" aria-label="Media sosial">
             <div class="flex items-center gap-2.5">
                 @foreach($socialLinks as $social)
-                    <a href="{{ $social->url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social->label }}" class="flex size-10 items-center justify-center rounded-full bg-black text-white transition hover:bg-slate-800">
+                    <a href="{{ $social->url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social->label }}" class="flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition hover:-translate-y-0.5 hover:border-[#FFC400] hover:text-[#FFC400]">
                         @if($social->icon === 'youtube')<svg class="size-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.58 7.19a2.95 2.95 0 00-2.08-2.09C17.67 4.6 12 4.6 12 4.6s-5.67 0-7.5.5a2.95 2.95 0 00-2.08 2.09A30.4 30.4 0 002 12a30.4 30.4 0 00.42 4.81 2.95 2.95 0 002.08 2.09c1.83.5 7.5.5 7.5.5s5.67 0 7.5-.5a2.95 2.95 0 002.08-2.09A30.4 30.4 0 0022 12a30.4 30.4 0 00-.42-4.81zM10 15.5v-7l6 3.5-6 3.5z" /></svg>
                         @elseif($social->icon === 'instagram')<svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke-width="2" /><circle cx="12" cy="12" r="4" stroke-width="2" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg>
                         @elseif($social->icon === 'facebook')<svg class="size-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.75l.41-3h-3.16V8.08c0-.87.25-1.46 1.5-1.46h1.76V3.94A23.6 23.6 0 0015.05 3C12.37 3 10.5 4.64 10.5 7.66V10H8v3h2.5v8h3z" /></svg>
@@ -41,11 +41,11 @@
                     </a>
                 @endforeach
             </div>
-            <div class="mt-3 h-px w-[190px] bg-white"></div>
+            <div class="mt-3 h-px w-[190px] bg-[#FFC400]"></div>
         </section>
     </div>
 
-    <div class="border-t border-black/70 px-4 py-2 text-center text-[13px] text-white">
+    <div class="border-t border-white/10 px-4 py-3 text-center text-[13px] text-slate-400">
         Copyright © {{ now()->year }} Universitas Negeri Makassar. Dikelola oleh UPT TIK UNM
     </div>
 </footer>

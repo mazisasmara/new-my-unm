@@ -33,6 +33,28 @@ class LayananController extends Controller
         }
 
         $kategori = Kategori::where('slug', $slug)->firstOrFail();
+
+        if ($slug === 'universitas') {
+            $services = Layanan::query()
+                ->with('group.kategori')
+                ->where('status', true)
+                ->whereHas('group', fn ($query) => $query
+                    ->where('status', true)
+                    ->where('kategori_id', $kategori->id))
+                ->filter(request('search'))
+                ->when(
+                    request()->filled('search'),
+                    fn ($query) => $query->orderBy('nama_layanan'),
+                    fn ($query) => $query->popular()->orderBy('urutan')->limit(8),
+                )
+                ->get();
+
+            return view('home', [
+                'title' => $kategori->nama_kategori,
+                'services' => $services,
+            ]);
+        }
+
         $views = [
             'portal-prodi' => 'prodi',
         ];

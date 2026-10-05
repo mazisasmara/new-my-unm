@@ -17,28 +17,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex min-h-screen flex-col text-slate-800">
+<body class="flex min-h-screen flex-col text-slate-800 {{ request()->routeIs('admin.*', 'superadmin.*') ? '' : 'bg-[#F8FAFC]' }}">
 
     @php
         $isAdminArea = request()->routeIs('admin.*', 'superadmin.*');
     @endphp
-
-    {{-- =====================================================
-         BACKGROUND GEDUNG UNM
-    ====================================================== --}}
-
-    @if (!request()->routeIs('admin.*', 'superadmin.*'))
-        <div
-            class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-            style="
-                background-image:
-                    url('{{ asset('storage/layanan-logo/BGunm.png') }}');
-            "
-        ></div>
-
-        <div class="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat bg-black opacity-45"></div>
-    @endif
-
 
     @if ($isAdminArea)
         <x-navbar />
@@ -54,7 +37,7 @@
 
         <main class="flex-1">
 
-            <div class="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 {{ $isAdminArea ? 'py-7' : '' }} sm:px-6 lg:px-8">
 
                 {{ $slot }}
 

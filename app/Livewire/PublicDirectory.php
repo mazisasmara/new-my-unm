@@ -16,7 +16,9 @@ class PublicDirectory extends Component
 
     public ?string $owner = null;
 
-    public function mount(int $kategoriId, string $kind, ?string $search = null, ?string $owner = null): void
+    public ?string $group = null;
+
+    public function mount(int $kategoriId, string $kind, ?string $search = null, ?string $owner = null, ?string $group = null): void
     {
         abort_unless(in_array($kind, ['layanan', 'prodi'], true), 404);
 
@@ -24,6 +26,7 @@ class PublicDirectory extends Component
         $this->kind = $kind;
         $this->search = $search;
         $this->owner = $owner;
+        $this->group = $group;
     }
 
     public function render()
@@ -34,7 +37,9 @@ class PublicDirectory extends Component
 
         $kategori = Kategori::whereKey($this->kategoriId)
             ->with(['groups' => function ($query) {
-                $query->where('status', true)->orderBy('urutan');
+                $query->where('status', true)
+                    ->when($this->group, fn ($query, $group) => $query->where('slug', $group))
+                    ->orderBy('urutan');
             }, $this->kind === 'prodi' ? 'groups.prodis' : 'groups.layanans' => function ($query) use ($filteredUser) {
                 $query->where('status', true)->orderBy('urutan');
                 if ($this->kind === 'layanan') {
