@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Layanan;
+use App\Models\FooterItem;
 use App\Models\Prodi;
+use Database\Seeders\FooterItemSeeder;
 use Database\Seeders\GroupSeeder;
 use Database\Seeders\KategoriSeeder;
 use Database\Seeders\LayananSeeder;
@@ -24,29 +26,35 @@ class PublicDataSeederTest extends TestCase
             UserSeeder::class,
             LayananSeeder::class,
             ProdiSeeder::class,
+            FooterItemSeeder::class,
         ]);
 
-        $this->assertSame(15, $this->serviceCount('universitas'));
-        $this->assertSame(15, $this->serviceCount('fakultas'));
-        $this->assertSame(15, $this->serviceCount('mahasiswa'));
-        $this->assertSame(30, $this->serviceCount('perpustakaan'));
-        $this->assertSame(30, Prodi::whereHas('group.kategori', fn ($query) => $query->where('slug', 'portal-prodi'))->count());
+        $this->assertSame(29, $this->serviceCount('universitas'));
+        $this->assertSame(11, $this->serviceCount('fakultas'));
+        $this->assertSame(3, $this->serviceCount('mahasiswa'));
+        $this->assertSame(9, $this->serviceCount('perpustakaan'));
+        $this->assertSame(107, Prodi::whereHas('group.kategori', fn ($query) => $query->where('slug', 'portal-prodi'))->count());
+        $this->assertSame(3, FooterItem::where('type', 'contact')->count());
+        $this->assertSame(3, FooterItem::where('type', 'social')->count());
+        $this->assertSame('info@unm.ac.id', FooterItem::where('label', 'Email')->value('value'));
 
         Layanan::with(['group.user'])->get()->each(function (Layanan $layanan) {
             $this->assertSame($layanan->group->user->id, $layanan->created_by);
+            $this->assertNotEmpty($layanan->deskripsi);
         });
 
         Prodi::with(['group.user'])->get()->each(function (Prodi $prodi) {
             $this->assertSame($prodi->group->user->id, $prodi->created_by);
-            $this->assertCount(2, $prodi->links);
+            $this->assertCount(1, $prodi->links);
         });
 
         $technicalService = Layanan::with(['group.user'])
-            ->where('nama_layanan', 'Website Fakultas Teknik')
+            ->where('nama_layanan', 'TEKNIK')
             ->firstOrFail();
 
-        $this->assertSame('fakultas-teknik', $technicalService->group->slug);
-        $this->assertSame('admin_ft', $technicalService->group->user->username);
+        $this->assertSame('http://ft.unm.ac.id/', $technicalService->link);
+        $this->assertSame('fakultas-unm', $technicalService->group->slug);
+        $this->assertSame('admin_fakultas_unm', $technicalService->group->user->username);
     }
 
     private function serviceCount(string $categorySlug): int

@@ -16,7 +16,7 @@
                             <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#64748B]">{{ $directoryGroup->nama_group }}</p>
                             <h3 class="mt-2 text-xl font-semibold leading-snug text-[#0F1B3D]">{{ $item->nama_layanan }}</h3>
                             @if ($item->deskripsi)
-                                <p class="mt-3 text-sm leading-6 text-[#64748B]">{{ $item->deskripsi }}</p>
+                                <p class="mt-3 text-sm leading-6 text-[#64748B]">{{ Str::limit($item->deskripsi, 110) }}</p>
                             @endif
                         </div>
                         <span class="mt-auto inline-flex items-center gap-2 pt-7 text-sm font-semibold text-[#0F1B3D]">Buka Layanan <svg class="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
