@@ -1,58 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MyUNM
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Font
 
-## About Laravel
+Proyek ini tidak mengambil font dari domain eksternal. Font antarmuka memakai font sans-serif sistem yang tersedia di perangkat pengguna/browser (`ui-sans-serif`, `system-ui`, dan fallback bawaan). Konfigurasi pengambilan font Bunny telah dihapus dari `vite.config.js`.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Tidak ada domain font yang perlu di-whitelist. Perubahan ini hanya mengganti sumber font; layout, warna, ukuran, dan gaya antarmuka lainnya tidak diubah.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Deploy menggunakan berkas ZIP
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Panduan ini ditujukan untuk server yang menerima arsip ZIP, bukan Git clone. Build aset dilakukan **di komputer lokal** agar server tidak perlu menjalankan `npm install` atau mengakses internet untuk mengunduh font.
 
-## Learning Laravel
+### 1. Siapkan arsip di komputer lokal
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Jalankan dari direktori proyek:
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install --no-dev --optimize-autoloader
+npm ci
+npm run build
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Perintah `npm run build` wajib sukses dan menghasilkan folder `public/build`. Folder ini berisi CSS dan JavaScript siap produksi. Walaupun diabaikan oleh Git, folder tersebut **harus disertakan** dalam ZIP deployment.
 
-## Contributing
+Buat ZIP tanpa `.env`, `node_modules`, log, maupun cache lokal. Contoh:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+zip -r myunm-deploy.zip . \
+  -x '.env' '.env.backup' '.env.production' 'node_modules/*' '.git/*' 'storage/logs/*' \
+  'storage/framework/cache/*' 'storage/framework/sessions/*' \
+  'storage/framework/views/*' '*.log'
+```
 
-## Code of Conduct
+Jika server tidak menyediakan Composer atau tidak mempunyai akses internet ke Packagist, jangan mengecualikan folder `vendor` dari ZIP. Jika Composer tersedia di server, `vendor` boleh tidak disertakan dan dibuat pada langkah berikutnya.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Ekstrak dan konfigurasi di server
 
-## Security Vulnerabilities
+1. Ekstrak `myunm-deploy.zip` ke direktori aplikasi, misalnya `/var/www/myunm`.
+2. Pastikan document root domain mengarah ke `/var/www/myunm/public`, bukan ke direktori proyek utama.
+3. Buat `.env` dari `.env.example`, lalu isi konfigurasi produksi, khususnya `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, serta koneksi database. Jangan mengunggah `.env` dari komputer lokal.
+4. Bila folder `vendor` tidak disertakan, jalankan:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   ```
 
-## License
+5. Jalankan perintah Laravel berikut:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```bash
+   php artisan key:generate --force
+   php artisan migrate --force
+   php artisan storage:link
+   php artisan optimize
+   ```
+
+6. Beri hak tulis kepada user web server untuk direktori `storage` dan `bootstrap/cache`.
+
+### 3. Verifikasi setelah deploy
+
+- Buka halaman publik dan halaman login.
+- Pastikan CSS termuat dari `/build/assets/...` dan tidak ada permintaan ke `fonts.bunny.net`, `fonts.googleapis.com`, atau `fonts.gstatic.com` pada Network tab browser.
+- Jika aset tidak termuat, pastikan folder `public/build` ada di server dan document root benar-benar menunjuk ke `public`.
+
+## Perintah pengembangan
+
+```bash
+composer run dev
+composer test
+./vendor/bin/pint
+```
