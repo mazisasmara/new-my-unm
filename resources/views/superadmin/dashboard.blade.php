@@ -17,7 +17,6 @@
         <section class="rounded-lg border border-slate-200 bg-white shadow-sm"><div class="border-b border-slate-200 bg-slate-50 px-5 py-4"><h3 class="font-bold text-slate-800">Kunjungan Website</h3><p class="text-sm text-slate-500">Jumlah pengunjung unik setiap hari.</p></div><div class="relative h-80 p-5"><canvas id="websiteAnalyticsChart"></canvas></div></section>
         <section class="rounded-lg border border-slate-200 bg-white shadow-sm"><div class="border-b border-slate-200 bg-slate-50 px-5 py-4"><h3 class="font-bold text-slate-800">Kunjungan Layanan</h3><p class="text-sm text-slate-500">Perbandingan kunjungan setiap layanan.</p></div><div class="relative h-80 p-5"><canvas id="serviceAnalyticsChart"></canvas></div></section>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const chartColors = ['#2563eb', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0891b2', '#4f46e5'];
         function renderAnalyticsChart(id, analytics, filled = false) {

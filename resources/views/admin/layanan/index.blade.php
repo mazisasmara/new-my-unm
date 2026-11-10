@@ -18,7 +18,6 @@
         <livewire:managed-layanan-list :search="request('search')" :status="request('status')" :group="request('group')" :kategori="request('kategori')" />
     </div>
     @unless(auth()->user()->isSuperAdmin())
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
         <script>new Sortable(document.getElementById('sortable'), { animation: 150, onEnd() { const ids = Array.from(document.querySelectorAll('#sortable tr[data-id]')).map(item => item.dataset.id); fetch('{{ route('admin.layanan.reorder') }}', { method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'}, body: JSON.stringify({ids}) }); } });</script>
     @endunless
 </x-layout>

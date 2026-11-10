@@ -113,7 +113,6 @@
             </tbody>
         </table>
     </div>
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <script>
     const analytics = @json($analytics);
 

@@ -36,7 +36,6 @@
     </section>
 
     @if(count($analytics['datasets']))
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             const prodiAnalytics = @json($analytics);
             const colors = ['#1d4ed8', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0891b2', '#4f46e5'];
