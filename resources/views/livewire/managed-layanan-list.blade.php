@@ -5,7 +5,7 @@
                 <tbody id="sortable" class="divide-y divide-slate-100">
                     @forelse($layanans as $item)
                         <tr data-id="{{ $item->id }}" class="hover:bg-slate-50">
-                            <td class="px-4 py-3"><div class="flex items-center gap-3"><span class="cursor-move text-slate-400">☰</span><img src="{{ Storage::url($item->logo ?: 'layanan-logo/gambar.png') }}" class="size-10 rounded-md border object-contain" alt=""><div><p class="font-semibold text-slate-800">{{ $item->nama_layanan }}</p><p class="text-xs text-slate-500">{{ $item->group?->kategori?->nama_kategori }}</p></div></div></td>
+                            <td class="px-4 py-3"><div class="flex items-center gap-3"><span class="cursor-move text-slate-400">☰</span><img src="{{ Storage::url($item->logo ?: 'layanan-logo/logo-unm.png') }}" class="size-10 rounded-md border object-contain" alt="{{ $item->nama_layanan }}"><div><p class="font-semibold text-slate-800">{{ $item->nama_layanan }}</p><p class="text-xs text-slate-500">{{ $item->group?->kategori?->nama_kategori }}</p></div></div></td>
                             @if(auth()->user()->isSuperAdmin())<td class="px-4 py-3"><p class="fon
                                 t-medium">{{ $item->group?->nama_group ?? '-' }}</p><p class="text-xs text-slate-500">Admin: {{ $item->group?->user?->username ?? 'belum ditugaskan' }}</p></td><td class="px-4 py-3 text-slate-600">{{ $item->creator?->username ?? '-' }}</td>@endif
                             <td class="px-4 py-3 font-semibold">{{ number_format($item->clicks) }}</td>

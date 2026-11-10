@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kategori_id')
-              ->constrained()
-              ->cascadeOnDelete();
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('nama_group');
             $table->string('slug')->unique();
             $table->unsignedInteger('urutan')->default(0);

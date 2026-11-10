@@ -45,7 +45,7 @@ class LayananController extends Controller
                 ->when(
                     request()->filled('search'),
                     fn ($query) => $query->orderBy('nama_layanan'),
-                    fn ($query) => $query->popular()->orderBy('urutan')->limit(8),
+                    fn ($query) => $query->popular()->orderBy('urutan'),
                 )
                 ->get();
 

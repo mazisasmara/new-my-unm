@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Layanan;
 use App\Models\FooterItem;
+use App\Models\Layanan;
 use App\Models\Prodi;
 use Database\Seeders\FooterItemSeeder;
 use Database\Seeders\GroupSeeder;

@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('group_id')
-              ->constrained()
-              ->cascadeOnDelete();
-         
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->foreignId('created_by')
-              ->nullable()
-              ->constrained('users')
-              ->cascadeOnDelete();
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->string('nama_layanan');
             $table->string('logo')->nullable();
             $table->text('deskripsi')->nullable();

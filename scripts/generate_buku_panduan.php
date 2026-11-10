@@ -6,7 +6,6 @@ declare(strict_types=1);
  * Generator buku panduan MyUNM berbasis OOXML tanpa dependensi eksternal.
  * Jalankan: php scripts/generate_buku_panduan.php
  */
-
 $root = dirname(__DIR__);
 $output = $root.'/buku_panduan.docx';
 $screens = '/tmp/myunm-guide-screens';
@@ -26,12 +25,23 @@ function esc(string $value): string
 function run(string $text, array $opts = []): string
 {
     $props = '';
-    if ($opts['bold'] ?? false) $props .= '<w:b/>';
-    if ($opts['italic'] ?? false) $props .= '<w:i/>';
-    if (isset($opts['size'])) $props .= '<w:sz w:val="'.((int) $opts['size'] * 2).'"/><w:szCs w:val="'.((int) $opts['size'] * 2).'"/>';
-    if (isset($opts['color'])) $props .= '<w:color w:val="'.esc($opts['color']).'"/>';
-    if (isset($opts['font'])) $props .= '<w:rFonts w:ascii="'.esc($opts['font']).'" w:hAnsi="'.esc($opts['font']).'"/>';
+    if ($opts['bold'] ?? false) {
+        $props .= '<w:b/>';
+    }
+    if ($opts['italic'] ?? false) {
+        $props .= '<w:i/>';
+    }
+    if (isset($opts['size'])) {
+        $props .= '<w:sz w:val="'.((int) $opts['size'] * 2).'"/><w:szCs w:val="'.((int) $opts['size'] * 2).'"/>';
+    }
+    if (isset($opts['color'])) {
+        $props .= '<w:color w:val="'.esc($opts['color']).'"/>';
+    }
+    if (isset($opts['font'])) {
+        $props .= '<w:rFonts w:ascii="'.esc($opts['font']).'" w:hAnsi="'.esc($opts['font']).'"/>';
+    }
     $space = preg_match('/^\s|\s$/u', $text) ? ' xml:space="preserve"' : '';
+
     return '<w:r>'.($props ? '<w:rPr>'.$props.'</w:rPr>' : '').'<w:t'.$space.'>'.esc($text).'</w:t></w:r>';
 }
 
@@ -39,16 +49,29 @@ function p(array|string $content = '', array $opts = []): string
 {
     global $numCounter;
     $numCounter = 0;
-    if (is_string($content)) $content = [run($content)];
-    $pPr = '';
-    if (isset($opts['style'])) $pPr .= '<w:pStyle w:val="'.esc($opts['style']).'"/>';
-    if (isset($opts['align'])) $pPr .= '<w:jc w:val="'.esc($opts['align']).'"/>';
-    if (isset($opts['before']) || isset($opts['after']) || isset($opts['line'])) {
-        $pPr .= '<w:spacing'.(isset($opts['before']) ? ' w:before="'.(int)$opts['before'].'"' : '').(isset($opts['after']) ? ' w:after="'.(int)$opts['after'].'"' : '').(isset($opts['line']) ? ' w:line="'.(int)$opts['line'].'" w:lineRule="auto"' : '').'/>';
+    if (is_string($content)) {
+        $content = [run($content)];
     }
-    if ($opts['keepNext'] ?? false) $pPr .= '<w:keepNext/>';
-    if ($opts['pageBreakBefore'] ?? false) $pPr .= '<w:pageBreakBefore/>';
-    if ($opts['widow'] ?? true) $pPr .= '<w:widowControl/>';
+    $pPr = '';
+    if (isset($opts['style'])) {
+        $pPr .= '<w:pStyle w:val="'.esc($opts['style']).'"/>';
+    }
+    if (isset($opts['align'])) {
+        $pPr .= '<w:jc w:val="'.esc($opts['align']).'"/>';
+    }
+    if (isset($opts['before']) || isset($opts['after']) || isset($opts['line'])) {
+        $pPr .= '<w:spacing'.(isset($opts['before']) ? ' w:before="'.(int) $opts['before'].'"' : '').(isset($opts['after']) ? ' w:after="'.(int) $opts['after'].'"' : '').(isset($opts['line']) ? ' w:line="'.(int) $opts['line'].'" w:lineRule="auto"' : '').'/>';
+    }
+    if ($opts['keepNext'] ?? false) {
+        $pPr .= '<w:keepNext/>';
+    }
+    if ($opts['pageBreakBefore'] ?? false) {
+        $pPr .= '<w:pageBreakBefore/>';
+    }
+    if ($opts['widow'] ?? true) {
+        $pPr .= '<w:widowControl/>';
+    }
+
     return '<w:p>'.($pPr ? '<w:pPr>'.$pPr.'</w:pPr>' : '').implode('', $content).'</w:p>';
 }
 
@@ -61,7 +84,10 @@ function heading(string $text, int $level, ?string $bookmark = null, bool $pageB
         $inside .= '<w:bookmarkStart w:id="'.$bookmarkId.'" w:name="'.esc($bookmark).'"/>';
     }
     $inside .= run($text, ['bold' => true]);
-    if ($bookmark) $inside .= '<w:bookmarkEnd w:id="'.$bookmarkId++.'"/>';
+    if ($bookmark) {
+        $inside .= '<w:bookmarkEnd w:id="'.$bookmarkId++.'"/>';
+    }
+
     return '<w:p><w:pPr><w:pStyle w:val="Heading'.$level.'"/>'.($pageBreak ? '<w:pageBreakBefore/>' : '').'<w:keepNext/><w:widowControl/></w:pPr>'.$inside.'</w:p>';
 }
 
@@ -74,6 +100,7 @@ function bullet(string $text, int $level = 0): string
 {
     global $numCounter;
     $numCounter = 0;
+
     return '<w:p><w:pPr><w:numPr><w:ilvl w:val="'.$level.'"/><w:numId w:val="1"/></w:numPr><w:spacing w:after="80"/><w:widowControl/></w:pPr>'.run($text).'</w:p>';
 }
 
@@ -81,6 +108,7 @@ function numbered(string $text): string
 {
     global $numCounter;
     $numCounter++;
+
     return '<w:p><w:pPr><w:tabs><w:tab w:val="left" w:pos="720"/></w:tabs><w:ind w:left="720" w:hanging="360"/><w:spacing w:after="100"/><w:widowControl/></w:pPr>'.run($numCounter.'. ').run($text).'</w:p>';
 }
 
@@ -92,8 +120,10 @@ function labelPara(string $label, string $text): string
 function table(array $headers, array $rows, array $widths = []): string
 {
     $cols = count($headers);
-    if (!$widths) $widths = array_fill(0, $cols, (int) floor(9000 / $cols));
-    $grid = '<w:tblGrid>'.implode('', array_map(fn($w) => '<w:gridCol w:w="'.$w.'"/>', $widths)).'</w:tblGrid>';
+    if (! $widths) {
+        $widths = array_fill(0, $cols, (int) floor(9000 / $cols));
+    }
+    $grid = '<w:tblGrid>'.implode('', array_map(fn ($w) => '<w:gridCol w:w="'.$w.'"/>', $widths)).'</w:tblGrid>';
     $tr = '<w:tr><w:trPr><w:tblHeader/></w:trPr>';
     foreach ($headers as $i => $h) {
         $tr .= '<w:tc><w:tcPr><w:tcW w:w="'.$widths[$i].'" w:type="dxa"/><w:shd w:fill="E7E7E7"/><w:vAlign w:val="center"/></w:tcPr>'.p([run($h, ['bold' => true])], ['align' => 'center', 'after' => 0]).'</w:tc>';
@@ -102,17 +132,20 @@ function table(array $headers, array $rows, array $widths = []): string
     foreach ($rows as $row) {
         $tr .= '<w:tr><w:trPr><w:cantSplit/></w:trPr>';
         foreach ($row as $i => $cell) {
-            $tr .= '<w:tc><w:tcPr><w:tcW w:w="'.$widths[$i].'" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>'.p((string)$cell, ['after' => 0]).'</w:tc>';
+            $tr .= '<w:tc><w:tcPr><w:tcW w:w="'.$widths[$i].'" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>'.p((string) $cell, ['after' => 0]).'</w:tc>';
         }
         $tr .= '</w:tr>';
     }
+
     return '<w:tbl><w:tblPr><w:tblW w:w="9000" w:type="dxa"/><w:tblLayout w:type="fixed"/><w:tblBorders><w:top w:val="single" w:sz="4" w:color="777777"/><w:left w:val="single" w:sz="4" w:color="777777"/><w:bottom w:val="single" w:sz="4" w:color="777777"/><w:right w:val="single" w:sz="4" w:color="777777"/><w:insideH w:val="single" w:sz="4" w:color="B7B7B7"/><w:insideV w:val="single" w:sz="4" w:color="B7B7B7"/></w:tblBorders><w:tblCellMar><w:top w:w="100" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:bottom w:w="100" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr>'.$grid.$tr.'</w:tbl>'.p('', ['after' => 100]);
 }
 
 function addImage(string $path, string $caption, float $widthInches = 6.25): string
 {
     global $media, $relationships, $relId, $figure;
-    if (!is_file($path)) return labelPara('Catatan:', 'Gambar tidak tersedia saat dokumen dibuat.');
+    if (! is_file($path)) {
+        return labelPara('Catatan:', 'Gambar tidak tersedia saat dokumen dibuat.');
+    }
     $info = getimagesize($path);
     $heightInches = $widthInches * ($info[1] / $info[0]);
     $cx = (int) round($widthInches * 914400);
@@ -125,6 +158,7 @@ function addImage(string $path, string $caption, float $widthInches = 6.25): str
     $figure++;
     $docPr = 100 + $figure;
     $drawing = '<w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="'.$cx.'" cy="'.$cy.'"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="'.$docPr.'" name="'.esc($caption).'"/><wp:cNvGraphicFramePr><a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="'.$docPr.'" name="'.esc($name).'"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="'.$rid.'"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="'.$cx.'" cy="'.$cy.'"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:ln><a:noFill/></a:ln></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>';
+
     return p([$drawing], ['align' => 'center', 'after' => 80]).p([run($caption, ['italic' => true, 'size' => 10])], ['align' => 'center', 'after' => 180, 'keepNext' => false]);
 }
 
@@ -133,6 +167,7 @@ function hyperlink(string $text, string $url): string
     global $relationships, $relId;
     $rid = 'rId'.$relId++;
     $relationships[] = '<Relationship Id="'.$rid.'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink" Target="'.esc($url).'" TargetMode="External"/>';
+
     return '<w:hyperlink r:id="'.$rid.'">'.run($text, ['color' => '0563C1']).'</w:hyperlink>';
 }
 
@@ -436,11 +471,11 @@ $rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships x
 $packageRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>';
 $types = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Default Extension="jpg" ContentType="image/jpeg"/><Default Extension="jpeg" ContentType="image/jpeg"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>';
 
-if (!class_exists(ZipArchive::class)) {
+if (! class_exists(ZipArchive::class)) {
     fwrite(STDERR, "Ekstensi ZipArchive tidak tersedia.\n");
     exit(1);
 }
-$zip = new ZipArchive();
+$zip = new ZipArchive;
 if ($zip->open($output, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
     fwrite(STDERR, "Tidak dapat membuat $output\n");
     exit(1);
@@ -456,7 +491,9 @@ $zip->addFromString('word/settings.xml', $settings);
 $zip->addFromString('word/header1.xml', $header);
 $zip->addFromString('word/footer1.xml', $footer);
 $zip->addFromString('word/_rels/document.xml.rels', $rels);
-foreach ($media as $name => $path) $zip->addFile($path, 'word/media/'.$name);
+foreach ($media as $name => $path) {
+    $zip->addFile($path, 'word/media/'.$name);
+}
 $zip->close();
 
 echo "Dibuat: $output\n";
