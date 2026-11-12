@@ -11,7 +11,7 @@
 <nav class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-xl sm:px-6 lg:px-8">
     <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-5">
         <a href="{{ route('home') }}" class="flex h-16 shrink-0 items-center rounded-2xl bg-[#0F1B3D] px-3 shadow-sm" aria-label="Beranda Universitas Negeri Makassar">
-            <img src="{{ asset('storage/layanan-logo/logo-myunm.png') }}" alt="Universitas Negeri Makassar" class="h-12 w-auto object-contain sm:h-14">
+            <img src="{{ asset('storage/layanan-logo/1000161420-removebg-preview.png') }}" alt="Universitas Negeri Makassar" class="h-12 w-auto object-contain sm:h-14">
         </a>
         <div class="hidden min-w-0 items-center gap-5 lg:flex xl:gap-8">
             <div class="flex items-center gap-1 xl:gap-2">
