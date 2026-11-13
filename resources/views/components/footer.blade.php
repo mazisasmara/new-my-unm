@@ -1,7 +1,7 @@
 <footer class="w-full bg-[#0F1B3D] text-white">
     <div class="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10 md:flex-row md:items-center md:gap-6 lg:px-8">
         <div class="flex justify-center md:w-1/3 md:justify-start">
-            <img src="{{ asset('storage/layanan-logo/1000161420-removebg-preview.png') }}" alt="Universitas Negeri Makassar" class="h-24 w-44 scale-150 object-contain sm:h-28 sm:scale-150">
+            <img src="{{ asset('storage/layanan-logo/logoUNM.png') }}" alt="Universitas Negeri Makassar" class="h-24 w-44 scale-150 object-contain sm:h-28 sm:scale-150">
         </div>
 
         <section class="mx-auto text-sm text-slate-300 md:w-1/3">
