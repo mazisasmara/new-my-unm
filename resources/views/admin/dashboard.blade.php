@@ -113,73 +113,77 @@
             </tbody>
         </table>
     </div>
- <script>
-    const analytics = @json($analytics);
+    <script>
+        
+        window.addEventListener('app:ready', () => {
+            const analytics = @json($analytics);
 
-    const ctx = document
-        .getElementById('serviceAnalyticsChart')
-        .getContext('2d');
+            const canvas = document.getElementById('serviceAnalyticsChart');
 
-    new Chart(ctx, {
-        type: 'line',
+            if (!canvas || !window.Chart) return;
 
-        data: {
-            labels: analytics.labels,
+            new window.Chart(canvas, {
+                type: 'line',
 
-            datasets: analytics.datasets.map((dataset, index) => ({
-                ...dataset,
+                data: {
+                    labels: analytics.labels,
 
-                borderWidth: 2,
-                tension: 0.3,
-                fill: false,
+                    datasets: analytics.datasets.map((dataset, index) => ({
+                        ...dataset,
 
-                pointRadius: 3,
-                pointHoverRadius: 5,
-            })),
-        },
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: false,
 
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-
-            interaction: {
-                mode: 'index',
-                intersect: false,
-            },
-
-            plugins: {
-                legend: {
-                    position: 'bottom',
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                    })),
                 },
 
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                },
-            },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
 
-            scales: {
-                y: {
-                    beginAtZero: true,
-
-                    ticks: {
-                        precision: 0,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
                     },
 
-                    title: {
-                        display: true,
-                        text: 'Unique Visitor',
-                    },
-                },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
 
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Tanggal',
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                    },
+
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+
+                            ticks: {
+                                precision: 0,
+                            },
+
+                            title: {
+                                display: true,
+                                text: 'Unique Visitor',
+                            },
+                        },
+
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tanggal',
+                            },
+                        },
                     },
                 },
-            },
-        },
-    });
-     </script>
+            });
+        });
+
+    </script>
 </x-layout>

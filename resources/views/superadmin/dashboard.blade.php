@@ -18,12 +18,70 @@
         <section class="rounded-lg border border-slate-200 bg-white shadow-sm"><div class="border-b border-slate-200 bg-slate-50 px-5 py-4"><h3 class="font-bold text-slate-800">Kunjungan Layanan</h3><p class="text-sm text-slate-500">Perbandingan kunjungan setiap layanan.</p></div><div class="relative h-80 p-5"><canvas id="serviceAnalyticsChart"></canvas></div></section>
     </div>
     <script>
-        const chartColors = ['#2563eb', '#7c3aed', '#059669', '#d97706', '#dc2626', '#0891b2', '#4f46e5'];
-        function renderAnalyticsChart(id, analytics, filled = false) {
-            const canvas = document.getElementById(id); if (!canvas) return;
-            new Chart(canvas, { type: 'line', data: { labels: analytics.labels, datasets: analytics.datasets.map((dataset, index) => ({ ...dataset, borderColor: chartColors[index % chartColors.length], backgroundColor: chartColors[index % chartColors.length] + '20', borderWidth: 2, tension: .3, fill: filled, pointRadius: 3 })) }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } } });
-        }
-        renderAnalyticsChart('websiteAnalyticsChart', @json($websiteAnalytics), true);
-        renderAnalyticsChart('serviceAnalyticsChart', @json($serviceAnalytics));
-    </script>
+    function renderAnalyticsChart(id, analytics, filled = false) {
+        const canvas = document.getElementById(id);
+
+        if (!canvas || !window.Chart) return;
+
+        const chartColors = [
+            '#2563eb',
+            '#7c3aed',
+            '#059669',
+            '#d97706',
+            '#dc2626',
+            '#0891b2',
+            '#4f46e5'
+        ];
+
+        new window.Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: analytics.labels,
+                datasets: analytics.datasets.map((dataset, index) => ({
+                    ...dataset,
+                    borderColor: chartColors[index % chartColors.length],
+                    backgroundColor: chartColors[index % chartColors.length] + '20',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: filled,
+                    pointRadius: 3
+                }))
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    window.addEventListener('app:ready', () => {
+        renderAnalyticsChart(
+            'websiteAnalyticsChart',
+            @json($websiteAnalytics),
+            true
+        );
+
+        renderAnalyticsChart(
+            'serviceAnalyticsChart',
+            @json($serviceAnalytics)
+        );
+    });
+</script>
 </x-layout>

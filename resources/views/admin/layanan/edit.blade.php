@@ -42,6 +42,39 @@
             </div>
 
             <div>
+                <label class="block mb-1 font-medium"> Informasi Dokumen </label>
+
+                <textarea
+                    name="informasi_dokumen"
+                    rows="4"
+                    class="w-full border rounded-lg px-3 py-2"
+                    >{{ old('informasi_dokumen', $layanan->informasi_dokumen) }}</textarea
+                >
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium"> Link Dokumen </label>
+
+                <input
+                    type="url"
+                    name="link_dokumen"
+                    value="{{ old('link_dokumen', $layanan->link_dokumen) }}"
+                    class="w-full border rounded-lg px-3 py-2"
+                />
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium"> Link Panduan </label>
+
+                <input
+                    type="url"
+                    name="link_panduan"
+                    value="{{ old('link_panduan', $layanan->link_panduan) }}"
+                    class="w-full border rounded-lg px-3 py-2"
+                />
+            </div>
+
+            <div>
                 <label class="block mb-1 font-medium"> Link </label>
 
                 <input

@@ -17,6 +17,9 @@ class Layanan extends Model
         'logo',
         'deskripsi',
         'link',
+        'informasi_dokumen',
+        'link_dokumen',
+        'link_panduan',
         'urutan',
         'status',
     ];

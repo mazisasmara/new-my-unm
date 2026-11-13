@@ -5,7 +5,7 @@
 <aside id="app-sidebar" class="app-sidebar fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full flex-col shadow-2xl transition-transform duration-200 md:translate-x-0">
     <div class="flex h-20 items-center gap-3 border-b border-white/10 px-5">
         <img
-        src="{{ asset('storage/layanan-logo/logo-put.png') }}" 
+        src="{{ asset('storage/layanan-logo/logoUNM.png') }}" 
         alt="MyUNM"
         class="w-52 object-contain"></img>
         <button type="button" onclick="toggleSidebar(true)" class="ml-auto rounded-lg p-2 text-white hover:bg-white/15 md:hidden" aria-label="Tutup menu">✕</button>
