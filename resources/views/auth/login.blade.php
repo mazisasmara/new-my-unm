@@ -22,7 +22,7 @@
             </div>
 
             <div class="relative z-10 mt-12 max-w-xl lg:my-auto lg:py-16">
-                <img src="{{ asset('storage/layanan-logo/logo-myunm.png') }}" alt="MyUNM" class="h-auto w-64 max-w-full object-contain brightness-0 invert sm:w-80">
+                <img src="{{ asset('storage/layanan-logo/logoUNM.png') }}" alt="MyUNM" class="h-auto w-64 max-w-full object-contain brightness-0 invert sm:w-80">
                 <div class="mt-6 h-1 w-16 rounded-full bg-action"></div>
                 <h1 class="mt-6 text-4xl font-bold leading-tight text-white sm:text-5xl">Selamat datang kembali!</h1>
                 <p class="mt-4 max-w-md text-base leading-7 text-white/90 sm:text-lg">Masuk untuk mengelola layanan dan informasi di dashboard MyUNM.</p>
