@@ -493,14 +493,14 @@
             <aside class="flex flex-col justify-between bg-[#0F1B3D] p-6 text-white sm:p-8 lg:p-6">
 
                 <div>
-<!--                     <div class="flex size-11 items-center justify-center rounded-2xl bg-[#FFC400] text-[#0F1B3D]">
+                     <div class="flex size-11 items-center justify-center rounded-2xl bg-[#FFC400] text-[#0F1B3D]">
                         <svg class="size-5" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2"
                                 d="M13.5 10.5 21 3m0 0h-6m6 0v6M10 5H6a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4"/>
                         </svg>
-                    </div> -->
+                    </div>
 
                     <h3 class="mt-6 text-xl font-semibold">
                         Buka layanan
