@@ -27,8 +27,8 @@
                     <dl class="mt-5 grid gap-5 text-sm sm:grid-cols-2">
                         {{--
                         <div><dt class="font-medium text-[#64748B]">Pemilik</dt><dd class="mt-1 font-semibold text-[#0F1B3D]">{{ $layanan->creator?->username ?? '-' }}</dd></div>
-                        --}}
                         <div><dt class="font-medium text-[#64748B]">Tanggal dibuat</dt><dd class="mt-1 font-semibold text-[#0F1B3D]">{{ $layanan->created_at->translatedFormat('d F Y') }}</dd></div>
+                        --}}
                         <div><dt class="font-medium text-[#64748B]">Jumlah kunjungan</dt><dd class="mt-1 font-semibold text-[#0F1B3D]">{{ number_format($layanan->clicks) }}</dd></div>
                     </dl>
                 </div>

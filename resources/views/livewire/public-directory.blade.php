@@ -1,9 +1,41 @@
-<div wire:poll.visible.10s class="pb-16">
+<div
+    wire:poll.visible.10s
+    class="pb-16"
+    x-data="{
+        modalOpen: false,
+        selectedService: null,
+
+        openService(service) {
+            this.selectedService = service;
+            this.modalOpen = true;
+        },
+
+        closeModal() {
+            this.modalOpen = false;
+        }
+    }"
+    @keydown.escape.window="closeModal()"
+    x-effect="document.body.classList.toggle('overflow-hidden', modalOpen)"
+>
     @if ($kind === 'layanan')
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @forelse ($kategori->groups as $directoryGroup)
                 @foreach ($directoryGroup->layanans as $item)
-                    <a href="{{ route('layanan.show', $item) }}" class="group flex min-h-72 flex-col rounded-[22px] border border-[#E2E8F0] bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.04)] transition duration-300 hover:-translate-y-1.5 hover:border-[#FFC400] hover:shadow-[0_18px_45px_rgba(15,27,61,0.1)]">
+                    <button
+                        type="button"
+                        @click="openService(@js([
+                            'nama' => $item->nama_layanan,
+                            'group' => $directoryGroup->nama_group,
+                            'logo' => Storage::url($item->logo ?: 'layanan-logo/logo-unm.png'),
+                            'deskripsi' => $item->deskripsi,
+                            'clicks' => number_format($item->clicks),
+                            'informasi' => $item->informasi_dokumen,
+                            'dokumen' => $item->link_dokumen,
+                            'panduan' => $item->link_panduan,
+                            'visitUrl' => route('layanan.visit', $item),
+                        ]))"
+                        class="group flex min-h-72 w-full flex-col rounded-[22px] border border-[#E2E8F0] bg-white p-6 text-left shadow-[0_8px_30px_rgba(15,23,42,0.04)] transition duration-300 hover:-translate-y-1.5 hover:border-[#FFC400] hover:shadow-[0_18px_45px_rgba(15,27,61,0.1)]"
+                    >
                         <div class="flex items-start justify-between gap-4">
                             <div class="flex size-14 items-center justify-center overflow-hidden rounded-2xl bg-slate-50 ring-1 ring-slate-100">
                                 <img src="{{ Storage::url($item->logo ?: 'layanan-logo/logo-unm.png') }}" alt="" class="size-full object-contain p-2.5">
@@ -20,7 +52,7 @@
                             @endif
                         </div>
                         <span class="mt-auto inline-flex items-center gap-2 pt-7 text-sm font-semibold text-[#0F1B3D]">Buka Layanan <svg class="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
-                    </a>
+                    </button>
                 @endforeach
             @empty
             @endforelse
